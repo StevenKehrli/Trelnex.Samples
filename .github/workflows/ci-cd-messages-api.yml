@@ -1,0 +1,32 @@
+name: Trelnex.Messages.Api Workflow
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/build.yml
+      - .github/workflows/ci-cd-messages-api.yml
+      - Trelnex.Mailboxes.Client/**
+      - Trelnex.Messages.Client/**
+      - Trelnex.Messages.Api/**
+  push:
+    branches: [ main ]
+    paths:
+      - .github/workflows/build.yml
+      - .github/workflows/ci-cd-messages-api.yml
+      - Trelnex.Mailboxes.Client/**
+      - Trelnex.Messages.Client/**
+      - Trelnex.Messages.Api/**
+  workflow_dispatch:
+
+jobs:
+
+  # ---------------------------------------------------------------------
+  # 1. Restore and Build
+  # ---------------------------------------------------------------------
+  build:
+    uses: ./.github/workflows/build.yml
+
+    with:
+      project_name: 'Trelnex.Messages.Api'
+
+    secrets: inherit

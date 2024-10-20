@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trelnex.Mailboxes.Api", "Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trelnex.Mailboxes.Client", "Trelnex.Mailboxes.Client\Trelnex.Mailboxes.Client.csproj", "{A06AF246-ADAF-4AC4-ADDC-104B297E3CDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trelnex.Messages.Api", "Trelnex.Messages.Api\Trelnex.Messages.Api.csproj", "{389D1E56-1A45-46CB-A63E-FD96BA5159F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trelnex.Messages.Client", "Trelnex.Messages.Client\Trelnex.Messages.Client.csproj", "{768E5CAC-2375-413D-86AF-2CDB8C95E36B}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trelnex.Users.Api", "Trelnex.Users.Api\Trelnex.Users.Api.csproj", "{43BD31CA-40B4-4C91-B978-A55EB5BD206A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trelnex.Users.Client", "Trelnex.Users.Client\Trelnex.Users.Client.csproj", "{CB0E9E3E-70A9-4687-88B3-71AD4D4D1B10}"
@@ -37,6 +41,14 @@ Global
 		{A06AF246-ADAF-4AC4-ADDC-104B297E3CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A06AF246-ADAF-4AC4-ADDC-104B297E3CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A06AF246-ADAF-4AC4-ADDC-104B297E3CDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{389D1E56-1A45-46CB-A63E-FD96BA5159F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{389D1E56-1A45-46CB-A63E-FD96BA5159F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{389D1E56-1A45-46CB-A63E-FD96BA5159F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{389D1E56-1A45-46CB-A63E-FD96BA5159F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{768E5CAC-2375-413D-86AF-2CDB8C95E36B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{768E5CAC-2375-413D-86AF-2CDB8C95E36B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{768E5CAC-2375-413D-86AF-2CDB8C95E36B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{768E5CAC-2375-413D-86AF-2CDB8C95E36B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{43BD31CA-40B4-4C91-B978-A55EB5BD206A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{43BD31CA-40B4-4C91-B978-A55EB5BD206A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43BD31CA-40B4-4C91-B978-A55EB5BD206A}.Release|Any CPU.ActiveCfg = Release|Any CPU
