@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+        <RootNamespace>Trelnex.Integration.Tests</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="FluentValidation" Version="11.10.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+        <PackageReference Include="NUnit" Version="4.2.2" />
+        <PackageReference Include="NUnit.Analyzers" Version="4.3.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+        <PackageReference Include="Snapshooter.NUnit" Version="0.14.1" />
+        <PackageReference Include="SpecFlow.NUnit" Version="3.9.74" />
+        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="NUnit.Framework" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="appsettings.json" CopyToOutputDirectory="Always" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Trelnex.Core.Data.Emulator" Version="1.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Trelnex.Groups.Api\Trelnex.Groups.Api.csproj">
+            <ExcludeAssets>contentfiles</ExcludeAssets>
+        </ProjectReference>
+        <ProjectReference Include="..\Trelnex.Mailboxes.Api\Trelnex.Mailboxes.Api.csproj">
+            <ExcludeAssets>contentfiles</ExcludeAssets>
+        </ProjectReference>
+        <ProjectReference Include="..\Trelnex.Messages.Api\Trelnex.Messages.Api.csproj">
+            <ExcludeAssets>contentfiles</ExcludeAssets>
+        </ProjectReference>
+        <ProjectReference Include="..\Trelnex.Users.Api\Trelnex.Users.Api.csproj">
+            <ExcludeAssets>contentfiles</ExcludeAssets>
+        </ProjectReference>
+    </ItemGroup>
+
+</Project>
