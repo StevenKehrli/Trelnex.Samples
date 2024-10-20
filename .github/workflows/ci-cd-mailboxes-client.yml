@@ -1,19 +1,17 @@
-name: Trelnex.Groups.Api Workflow
+name: Trelnex.Mailboxes.Client Workflow
 
 on:
   pull_request:
     paths:
       - .github/workflows/build.yml
-      - .github/workflows/ci-cd-groups-api.yml
-      - Trelnex.Groups.Client/**
-      - Trelnex.Groups.Api/**
+      - .github/workflows/ci-cd-mailboxes-client.yml
+      - Trelnex.Mailboxes.Client/**
   push:
     branches: [ main ]
     paths:
       - .github/workflows/build.yml
-      - .github/workflows/ci-cd-groups-api.yml
-      - Trelnex.Groups.Client/**
-      - Trelnex.Groups.Api/**
+      - .github/workflows/ci-cd-mailboxes-client.yml
+      - Trelnex.Mailboxes.Client/**
   workflow_dispatch:
 
 jobs:
@@ -25,6 +23,6 @@ jobs:
     uses: ./.github/workflows/build.yml
 
     with:
-      project_name: 'Trelnex.Groups.Api'
+      project_name: 'Trelnex.Mailboxes.Client'
 
     secrets: inherit

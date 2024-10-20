@@ -5,7 +5,6 @@ on:
     paths:
       - .github/workflows/build.yml
       - .github/workflows/ci-cd-users-api.yml
-      - .github/workflows/ci-cd-users-client.yml
       - Trelnex.Users.Client/**
       - Trelnex.Users.Api/**
   push:
@@ -13,7 +12,6 @@ on:
     paths:
       - .github/workflows/build.yml
       - .github/workflows/ci-cd-users-api.yml
-      - .github/workflows/ci-cd-users-client.yml
       - Trelnex.Users.Client/**
       - Trelnex.Users.Api/**
   workflow_dispatch:

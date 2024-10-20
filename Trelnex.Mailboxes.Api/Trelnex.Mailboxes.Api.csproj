@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Trelnex.Mailboxes.Api</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Trelnex.Core.Api" Version="1.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Trelnex.Groups.Client\Trelnex.Groups.Client.csproj" />
+        <ProjectReference Include="..\Trelnex.Mailboxes.Client\Trelnex.Mailboxes.Client.csproj" />
+        <ProjectReference Include="..\Trelnex.Users.Client\Trelnex.Users.Client.csproj" />
+    </ItemGroup>
+
+</Project>
