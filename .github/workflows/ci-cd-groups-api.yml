@@ -1,0 +1,32 @@
+name: Trelnex.Groups.Api Workflow
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/build.yml
+      - .github/workflows/ci-cd-groups-api.yml
+      - .github/workflows/ci-cd-groups-client.yml
+      - Trelnex.Groups.Client/**
+      - Trelnex.Groups.Api/**
+  push:
+    branches: [ main ]
+    paths:
+      - .github/workflows/build.yml
+      - .github/workflows/ci-cd-groups-api.yml
+      - .github/workflows/ci-cd-groups-client.yml
+      - Trelnex.Groups.Client/**
+      - Trelnex.Groups.Api/**
+  workflow_dispatch:
+
+jobs:
+
+  # ---------------------------------------------------------------------
+  # 1. Restore and Build
+  # ---------------------------------------------------------------------
+  build:
+    uses: ./.github/workflows/build.yml
+
+    with:
+      project_name: 'Trelnex.Groups.Api'
+
+    secrets: inherit
