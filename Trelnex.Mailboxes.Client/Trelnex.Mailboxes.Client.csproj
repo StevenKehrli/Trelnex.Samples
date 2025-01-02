@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>Trelnex.Mailboxes.Client</RootNamespace>
@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Trelnex.Core.Client" Version="1.0.0"/>
+        <PackageReference Include="Trelnex.Core.Client" Version="2.0.0"/>
     </ItemGroup>
 
 </Project>
