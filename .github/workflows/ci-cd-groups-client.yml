@@ -23,6 +23,7 @@ jobs:
     uses: ./.github/workflows/build.yml
 
     with:
+      dotnet_version: '9.0.x'
       project_name: 'Trelnex.Groups.Client'
 
     secrets: inherit
