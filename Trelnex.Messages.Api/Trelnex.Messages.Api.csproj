@@ -7,13 +7,10 @@
         <RootNamespace>Trelnex.Messages.Api</RootNamespace>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <AzureCosmosDisableNewtonsoftJsonCheck>true</AzureCosmosDisableNewtonsoftJsonCheck>
-    </PropertyGroup>
-
     <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-        <PackageReference Include="Trelnex.Core.Api" Version="3.0.0"/>
+        <PackageReference Include="Trelnex.Core.Api" Version="3.0.0" />
     </ItemGroup>
 
     <ItemGroup>

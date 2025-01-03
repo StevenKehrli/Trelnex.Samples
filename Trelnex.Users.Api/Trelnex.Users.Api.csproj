@@ -7,12 +7,9 @@
         <RootNamespace>Trelnex.Users.Api</RootNamespace>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <AzureCosmosDisableNewtonsoftJsonCheck>true</AzureCosmosDisableNewtonsoftJsonCheck>
-    </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="Trelnex.Core.Api" Version="3.0.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Trelnex.Core.Api" Version="3.0.0" />
     </ItemGroup>
 
     <ItemGroup>
