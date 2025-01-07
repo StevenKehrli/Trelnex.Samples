@@ -40,7 +40,8 @@ internal static class GetMessagesEndpoint
     {
         // create a query for all messages in the mailbox
         var messageQueryCommand = messageProvider.Query()
-            .Where(i => i.PartitionKey == parameters.MailboxId.ToString());
+            .Where(i => i.PartitionKey == parameters.MailboxId.ToString())
+            .OrderBy(i => i.CreatedDate);
 
         var messageQueryResults = await messageQueryCommand.ToAsyncEnumerable().ToArrayAsync();
 
