@@ -36,7 +36,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Trelnex.Core.Data.Emulator" Version="4.0.0" />
+        <PackageReference Include="Trelnex.Core.Data.Emulator" Version="4.1.0" />
     </ItemGroup>
 
     <ItemGroup>
