@@ -31,17 +31,20 @@ public static class ClientExtensions
 
         services.AddHttpClient(GroupsClient.Name);
 
-        // get the token credential and initialize
-        var tokenCredential = CredentialFactory.Get(bootstrapLogger, GroupsClient.Name);
-
+        // get the token credential and request context
+        var tokenCredential = CredentialFactory.Instance.Get(GroupsClient.Name);
         var tokenRequestContext = new TokenRequestContext([clientOptions.Scope]);
-        tokenCredential.GetToken(tokenRequestContext, default);
+
+        var getAuthorizationHeader = () => tokenCredential.GetAuthorizationHeader(tokenRequestContext);
+
+        // initialize
+        getAuthorizationHeader();
 
         services.AddScoped<IGroupsClient>(provider =>
         {
             var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
 
-            return new GroupsClient(httpClientFactory, tokenCredential, tokenRequestContext, clientOptions.BaseUri);
+            return new GroupsClient(httpClientFactory, getAuthorizationHeader, clientOptions.BaseUri);
 
         });
 

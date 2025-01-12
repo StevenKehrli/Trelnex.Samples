@@ -1,4 +1,3 @@
-using Azure.Core;
 using Trelnex.Core.Client;
 
 namespace Trelnex.Messages.Client;
@@ -62,13 +61,11 @@ public interface IMessagesClient
 /// Initializes a new instance of the <see cref="MessagesClient"/>.
 /// </summary>
 /// <param name="httpClientFactory">The specified <see cref="IHttpClientFactory"/> to create and configure an <see cref="HttpClient"/> instance.</param>
-/// <param name="tokenCredential">The specified <see cref="TokenCredential"/> to get the <see cref="AccessToken"/> for the specified set of scopes.</param>
-/// <param name="tokenRequestContext">The <see cref="TokenRequestContext"/> with authentication information.</param>
+/// <param name="getAuthorizationHeader">The specified function to get the authorization header.</param>
 /// <param name="baseUri">The base <see cref="Uri"/> to build the request <see cref="Uri"/>.</param>
 public class MessagesClient(
     IHttpClientFactory httpClientFactory,
-    TokenCredential tokenCredential,
-    TokenRequestContext tokenRequestContext,
+    Func<string> getAuthorizationHeader,
     Uri baseUri)
     : BaseClient(httpClientFactory), IMessagesClient
 {
@@ -91,7 +88,7 @@ public class MessagesClient(
         return await Post<CreateMessageRequest, MessageModel>(
             uri: baseUri.AppendPath($"/{request.MailboxId}/messages"),
             content: request,
-            addHeaders: headers => headers.AddBearerToken(tokenCredential, tokenRequestContext));
+            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
     }
 
     /// <summary>
@@ -105,7 +102,7 @@ public class MessagesClient(
     {
         return await Delete<DeleteMessageResponse>(
             uri: baseUri.AppendPath($"mailboxes/{mailboxId}/messages/{messageId}"),
-            addHeaders: headers => headers.AddBearerToken(tokenCredential, tokenRequestContext));
+            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
     }
 
     /// <summary>
@@ -120,7 +117,7 @@ public class MessagesClient(
     {
         return await Get<MessageModel>(
             uri: baseUri.AppendPath($"mailboxes/{mailboxId}/messages/{messageId}"),
-            addHeaders: headers => headers.AddBearerToken(tokenCredential, tokenRequestContext));
+            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
     }
 
     /// <summary>
@@ -133,7 +130,7 @@ public class MessagesClient(
     {
         return await Get<MessageModel[]>(
             uri: baseUri.AppendPath($"mailboxes/{mailboxId}"),
-            addHeaders: headers => headers.AddBearerToken(tokenCredential, tokenRequestContext));
+            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
     }
 
     /// <summary>
@@ -151,7 +148,7 @@ public class MessagesClient(
         return await Put<UpdateMessageRequest, MessageModel>(
             uri: baseUri.AppendPath($"mailboxes/{mailboxId}/messages/{messageId}"),
             content: request,
-            addHeaders: headers => headers.AddBearerToken(tokenCredential, tokenRequestContext));
+            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
     }
 
     /// <summary>

@@ -1,4 +1,3 @@
-using Azure.Core;
 using Trelnex.Core.Client;
 
 namespace Trelnex.Users.Client;
@@ -29,13 +28,11 @@ public interface IUsersClient
 /// Initializes a new instance of the <see cref="UsersClient"/>.
 /// </summary>
 /// <param name="httpClientFactory">The specified <see cref="IHttpClientFactory"/> to create and configure an <see cref="HttpClient"/> instance.</param>
-/// <param name="tokenCredential">The specified <see cref="TokenCredential"/> to get the <see cref="AccessToken"/> for the specified set of scopes.</param>
-/// <param name="tokenRequestContext">The <see cref="TokenRequestContext"/> with authentication information.</param>
+/// <param name="getAuthorizationHeader">The specified function to get the authorization header.</param>
 /// <param name="baseUri">The base <see cref="Uri"/> to build the request <see cref="Uri"/>.</param>
 public class UsersClient(
     IHttpClientFactory httpClientFactory,
-    TokenCredential tokenCredential,
-    TokenRequestContext tokenRequestContext,
+    Func<string> getAuthorizationHeader,
     Uri baseUri)
     : BaseClient(httpClientFactory), IUsersClient
 {
@@ -56,7 +53,7 @@ public class UsersClient(
         return await Post<CreateUserRequest, UserModel>(
             uri: baseUri.AppendPath($"/users"),
             content: request,
-            addHeaders: headers => headers.AddBearerToken(tokenCredential, tokenRequestContext));
+            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
     }
 
     /// <summary>
@@ -69,7 +66,7 @@ public class UsersClient(
     {
         return await Get<UserModel>(
             uri: baseUri.AppendPath($"/users/{userId}"),
-            addHeaders: headers => headers.AddBearerToken(tokenCredential, tokenRequestContext));
+            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
     }
 
     /// <summary>
