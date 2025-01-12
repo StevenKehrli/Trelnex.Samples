@@ -18,15 +18,15 @@ public static class ValidateGroupExtensions
     /// <returns>The <see cref="RouteHandlerBuilder"/>.</returns>
     public static RouteHandlerBuilder ValidateGroup(
         this RouteHandlerBuilder builder,
-        Func<EndpointFilterInvocationContext, (IGroupsClient, Guid)> getClientAndGroupId)
+        Func<EndpointFilterInvocationContext, (IGroupsClient groupsClient, Guid groupId)> getClientAndGroupId)
     {
         builder.AddEndpointFilter(async (efiContext, next) =>
         {
             // get the groups client and group id
             var result = getClientAndGroupId(efiContext);
 
-            var groupsClient = result.Item1;
-            var groupId = result.Item2;
+            var groupsClient = result.groupsClient;
+            var groupId = result.groupId;
 
             // validate
             return await ValidateGroup(groupsClient, groupId)

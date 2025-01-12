@@ -1,6 +1,7 @@
 using Trelnex.Core.Api;
 using Trelnex.Core.Api.Authentication;
 using Trelnex.Core.Api.CommandProviders;
+using Trelnex.Core.Api.Identity;
 using Trelnex.Core.Api.Swagger;
 using Trelnex.Core.Data;
 using Trelnex.Users.Api.Endpoints;
@@ -21,6 +22,9 @@ internal static class UsersApplication
 
         services
             .AddSwaggerToServices()
+            .AddCredentialFactory(
+                configuration,
+                bootstrapLogger)
             .AddCosmosCommandProviders(
                 configuration,
                 bootstrapLogger,

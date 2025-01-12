@@ -18,15 +18,15 @@ public static class ValidateExtensions
     /// <returns>The <see cref="RouteHandlerBuilder"/>.</returns>
     public static RouteHandlerBuilder ValidateUser(
         this RouteHandlerBuilder builder,
-        Func<EndpointFilterInvocationContext, (IUsersClient, Guid)> getClientAndUserId)
+        Func<EndpointFilterInvocationContext, (IUsersClient usersClient, Guid userId)> getClientAndUserId)
     {
         builder.AddEndpointFilter(async (efiContext, next) =>
         {
             // get the users client and user id
             var result = getClientAndUserId(efiContext);
 
-            var usersClient = result.Item1;
-            var userId = result.Item2;
+            var usersClient = result.usersClient;
+            var userId = result.userId;
 
             // validate
             return await ValidateUser(usersClient, userId)

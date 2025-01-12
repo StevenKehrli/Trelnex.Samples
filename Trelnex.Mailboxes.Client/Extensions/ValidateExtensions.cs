@@ -18,15 +18,15 @@ public static class ValidateExtensions
     /// <returns>The <see cref="RouteHandlerBuilder"/>.</returns>
     public static RouteHandlerBuilder ValidateMailbox(
         this RouteHandlerBuilder builder,
-        Func<EndpointFilterInvocationContext, (IMailboxesClient, Guid)> getClientAndMailboxId)
+        Func<EndpointFilterInvocationContext, (IMailboxesClient mailboxesClient, Guid mailboxId)> getClientAndMailboxId)
     {
         builder.AddEndpointFilter(async (efiContext, next) =>
         {
             // get the mailboxes client and mailbox id
             var result = getClientAndMailboxId(efiContext);
 
-            var mailboxesClient = result.Item1;
-            var mailboxId = result.Item2;
+            var mailboxesClient = result.mailboxesClient;
+            var mailboxId = result.mailboxId;
 
             // validate
             return await ValidateMailbox(mailboxesClient, mailboxId)

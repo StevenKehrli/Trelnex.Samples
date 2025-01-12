@@ -4,35 +4,35 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Trelnex.Core.Client.Identity;
 
-namespace Trelnex.Mailboxes.Client;
+namespace Trelnex.Messages.Client;
 
 /// <summary>
-/// Extension methods to add the <see cref="IMailboxesClient"/> to the <see cref="IServiceCollection"/>.
+/// Extension methods to add the <see cref="IMessagesClient"/> to the <see cref="IServiceCollection"/>.
 /// </summary>
 public static class ClientExtensions
 {
     /// <summary>
-    /// Add the <see cref="IMailboxesClient"/> to the <see cref="IServiceCollection"/>.
+    /// Add the <see cref="IMessagesClient"/> to the <see cref="IServiceCollection"/>.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to add the services to.</param>
     /// <param name="configuration">Represents a set of key/value application configuration properties.</param>
     /// <param name="bootstrapLogger">The <see cref="ILogger"/> to write the CommandProvider bootstrap logs.</param>
     /// <returns>The <see cref="IServiceCollection"/>.</returns>
-    public static IServiceCollection WithMailboxesClient(
+    public static IServiceCollection WithMessagesClient(
         this IServiceCollection services,
         IConfiguration configuration,
         ILogger bootstrapLogger)
     {
         var clientOptions = configuration
             .GetSection("Clients")
-            .GetSection(MailboxesClient.Name)
-            .Get<MailboxesClientConfiguration>()
+            .GetSection(MessagesClient.Name)
+            .Get<MessagesClientConfiguration>()
             .ValidateOrThrow();
 
-        services.AddHttpClient(MailboxesClient.Name);
+        services.AddHttpClient(MessagesClient.Name);
 
         // get the token credential and request context
-        var tokenCredential = CredentialFactory.Instance.Get(MailboxesClient.Name);
+        var tokenCredential = CredentialFactory.Instance.Get(MessagesClient.Name);
         var tokenRequestContext = new TokenRequestContext([clientOptions.Scope]);
 
         var getAuthorizationHeader = () => tokenCredential.GetAuthorizationHeader(tokenRequestContext);
@@ -40,11 +40,11 @@ public static class ClientExtensions
         // initialize
         getAuthorizationHeader();
 
-        services.AddScoped<IMailboxesClient>(provider =>
+        services.AddScoped<IMessagesClient>(provider =>
         {
             var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
 
-            return new MailboxesClient(httpClientFactory, getAuthorizationHeader, clientOptions.BaseUri);
+            return new MessagesClient(httpClientFactory, getAuthorizationHeader, clientOptions.BaseUri);
 
         });
 
@@ -52,39 +52,39 @@ public static class ClientExtensions
     }
 
     /// <summary>
-    /// Validates the mailboxes client configuration; throw if not valid.
+    /// Validates the messages client configuration; throw if not valid.
     /// </summary>
-    /// <param name="mailboxesClientConfiguration">The <see cref="MailboxesClientConfiguration"/>.</param>
-    /// <returns>The valid <see cref="MailboxesClientConfiguration"/>.</returns>
+    /// <param name="messagesClientConfiguration">The <see cref="MessagesClientConfiguration"/>.</param>
+    /// <returns>The valid <see cref="MessagesClientConfiguration"/>.</returns>
     /// <exception cref="ConfigurationErrorsException">The exception that is thrown when a configuration error has occurred.</exception>
-    private static MailboxesClientConfiguration ValidateOrThrow(
-        this MailboxesClientConfiguration? mailboxesClientConfiguration)
+    private static MessagesClientConfiguration ValidateOrThrow(
+        this MessagesClientConfiguration? messagesClientConfiguration)
     {
-        return Validate(mailboxesClientConfiguration)
-            ? mailboxesClientConfiguration!
-            : throw new InvalidOperationException($"Configuration error for 'Clients.{MailboxesClient.Name}'.");
+        return Validate(messagesClientConfiguration)
+            ? messagesClientConfiguration!
+            : throw new InvalidOperationException($"Configuration error for 'Clients.{MessagesClient.Name}'.");
     }
 
     /// <summary>
-    /// Validates the mailboxes client configuration.
+    /// Validates the messages client configuration.
     /// </summary>
-    /// <param name="mailboxesClientConfiguration">The <see cref="MailboxesClientConfiguration"/>.</param>
-    /// <returns>true if the <see cref="MailboxesClientConfiguration"/> is valid; otherwise, false.</returns>
+    /// <param name="messagesClientConfiguration">The <see cref="MessagesClientConfiguration"/>.</param>
+    /// <returns>true if the <see cref="MessagesClientConfiguration"/> is valid; otherwise, false.</returns>
     private static bool Validate(
-        MailboxesClientConfiguration? mailboxesClientConfiguration)
+        MessagesClientConfiguration? messagesClientConfiguration)
     {
-        if (mailboxesClientConfiguration?.BaseUri is null) return false;
-        if (string.IsNullOrWhiteSpace(mailboxesClientConfiguration?.Scope)) return false;
+        if (messagesClientConfiguration?.BaseUri is null) return false;
+        if (string.IsNullOrWhiteSpace(messagesClientConfiguration?.Scope)) return false;
 
         return true;
     }
 
     /// <summary>
-    /// Represents the configuration properties for the mailboxes client.
+    /// Represents the configuration properties for the messages client.
     /// </summary>
     /// <param name="BaseUri">The base <see cref="Uri"/> to build the request <see cref="Uri"/>.</param>
     /// <param name="Scope">The required scope for the <see cref="AccessToken"/>.</param>
-    private record MailboxesClientConfiguration(
+    private record MessagesClientConfiguration(
         Uri BaseUri,
         string Scope);
 }

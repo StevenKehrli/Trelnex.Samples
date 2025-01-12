@@ -31,17 +31,20 @@ public static class ClientExtensions
 
         services.AddHttpClient(UsersClient.Name);
 
-        // get the token credential and initialize
-        var tokenCredential = CredentialFactory.Get(bootstrapLogger, UsersClient.Name);
-
+        // get the token credential and request context
+        var tokenCredential = CredentialFactory.Instance.Get(UsersClient.Name);
         var tokenRequestContext = new TokenRequestContext([clientOptions.Scope]);
-        tokenCredential.GetToken(tokenRequestContext, default);
+
+        var getAuthorizationHeader = () => tokenCredential.GetAuthorizationHeader(tokenRequestContext);
+
+        // initialize
+        getAuthorizationHeader();
 
         services.AddScoped<IUsersClient>(provider =>
         {
             var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
 
-            return new UsersClient(httpClientFactory, tokenCredential, tokenRequestContext, clientOptions.BaseUri);
+            return new UsersClient(httpClientFactory, getAuthorizationHeader, clientOptions.BaseUri);
 
         });
 
