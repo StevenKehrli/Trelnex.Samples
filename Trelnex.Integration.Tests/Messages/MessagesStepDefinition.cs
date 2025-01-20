@@ -1,5 +1,5 @@
 using System.Net;
-using TechTalk.SpecFlow;
+using Reqnroll;
 using Trelnex.Core;
 using Trelnex.Integration.Tests.Groups;
 using Trelnex.Integration.Tests.Mailboxes;
@@ -41,7 +41,7 @@ public class MessagesStepDefinitions
 
     [Given(@"Message with contents '(.*)' in UserMailbox for (.*) exists")]
     [When(@"Message with contents '(.*)' in UserMailbox for (.*) is created")]
-    public async void UserMessageCreated(
+    public void UserMessageCreated(
         string contents,
         string userName)
     {
@@ -64,15 +64,15 @@ public class MessagesStepDefinitions
         };
 
         // create the message
-        var messageModel = await _messagesContext.Client.CreateMessage(
+        var messageModel = _messagesContext.Client.CreateMessage(
             mailboxId: mailboxModel.Id,
-            request: request);
+            request: request).Result;
 
         _messagesContext.Add(messageModel);
     }
 
     [When(@"Message with contents '(.*)' in UserMailbox for (.*) is updated to contents '(.*)'")]
-    public async void UserMessageUpdated(
+    public void UserMessageUpdated(
         string contents,
         string userName,
         string updatedContents)
@@ -95,16 +95,16 @@ public class MessagesStepDefinitions
         };
 
         // update the message
-        var messageModel = await _messagesContext.Client.UpdateMessage(
+        var messageModel = _messagesContext.Client.UpdateMessage(
             mailboxId: messageModelFromContext.MailboxId,
             messageId: messageModelFromContext.MessageId,
-            request: request);
+            request: request).Result;
 
         _messagesContext.Add(messageModel);
     }
 
     [When(@"Message with contents '(.*)' in UserMailbox for (.*) is deleted")]
-    public async void UserMessageDeleted(
+    public void UserMessageDeleted(
         string contents,
         string userName)
     {
@@ -118,13 +118,13 @@ public class MessagesStepDefinitions
         var messageModelFromContext = _messagesContext.Single(mm => mm.MailboxId == mailboxModel.Id && mm.Contents == contents);
 
         // delete the message
-        var messageModel = await _messagesContext.Client.DeleteMessage(
+        var messageModel = _messagesContext.Client.DeleteMessage(
             mailboxId: messageModelFromContext.MailboxId,
-            messageId: messageModelFromContext.MessageId);
+            messageId: messageModelFromContext.MessageId).Result;
     }
 
     [Then(@"Message with contents '(.*)' in UserMailbox for (.*) is valid")]
-    public async void UserMessageIsValid(
+    public void UserMessageIsValid(
         string contents,
         string userName)
     {
@@ -138,9 +138,9 @@ public class MessagesStepDefinitions
         var messageModelFromContext = _messagesContext.Single(mm => mm.MailboxId == mailboxModel.Id && mm.Contents == contents);
 
         // get the message
-        var messageModel = await _messagesContext.Client.GetMessage(
+        var messageModel = _messagesContext.Client.GetMessage(
             mailboxId: messageModelFromContext.MailboxId,
-            messageId: messageModelFromContext.MessageId);
+            messageId: messageModelFromContext.MessageId).Result;
 
         Assert.Multiple(() =>
         {
@@ -151,7 +151,7 @@ public class MessagesStepDefinitions
     }
 
     [Then(@"Messages in UserMailbox for (.*) are valid")]
-    public async void UserMessagesAreValid(
+    public void UserMessagesAreValid(
         string userName,
         Table table)
     {
@@ -164,8 +164,8 @@ public class MessagesStepDefinitions
         var mailboxModel = _mailboxesContext.Single(mm => mm.OwnerId == userModel.Id && mm.OwnerType == MailboxOwnerType.User);
 
         // get the messages
-        var messageModels = await _messagesContext.Client.GetMessages(
-            mailboxId: mailboxModel.Id);
+        var messageModels = _messagesContext.Client.GetMessages(
+            mailboxId: mailboxModel.Id).Result;
 
         var actualTable = messageModels.Select(mm => mm.Contents).ToArray();
 
@@ -187,17 +187,20 @@ public class MessagesStepDefinitions
         var messageModelFromContext = _messagesContext.Single(mm => mm.MailboxId == mailboxModel.Id && mm.Contents == contents);
 
         // get the message
-        var ex = Assert.ThrowsAsync<HttpStatusCodeException>(
-            async () => await _messagesContext.Client.GetMessage(
-            mailboxId: messageModelFromContext.MailboxId,
-            messageId: messageModelFromContext.MessageId));
+        var ex = Assert.Throws<HttpStatusCodeException>(() =>
+            _messagesContext.Client
+                .GetMessage(
+                    mailboxId: messageModelFromContext.MailboxId,
+                    messageId: messageModelFromContext.MessageId)
+                .GetAwaiter()
+                .GetResult());
 
         Assert.That(ex.HttpStatusCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
 
     [Given(@"Message with contents '(.*)' in GroupMailbox for (.*) exists")]
     [When(@"Message with contents '(.*)' in GroupMailbox for (.*) is created")]
-    public async void GroupMessageCreated(
+    public void GroupMessageCreated(
         string contents,
         string groupName)
     {
@@ -220,15 +223,15 @@ public class MessagesStepDefinitions
         };
 
         // create the message
-        var messageModel = await _messagesContext.Client.CreateMessage(
+        var messageModel = _messagesContext.Client.CreateMessage(
             mailboxId: mailboxModel.Id,
-            request: request);
+            request: request).Result;
 
         _messagesContext.Add(messageModel);
     }
 
     [Then(@"Messages in GroupMailbox for (.*) are valid")]
-    public async void GroupMessagesAreValid(
+    public void GroupMessagesAreValid(
         string groupName,
         Table table)
     {
@@ -241,8 +244,8 @@ public class MessagesStepDefinitions
         var mailboxModel = _mailboxesContext.Single(mm => mm.OwnerId == groupModel.Id && mm.OwnerType == MailboxOwnerType.Group);
 
         // get the messages
-        var messageModels = await _messagesContext.Client.GetMessages(
-            mailboxId: mailboxModel.Id);
+        var messageModels = _messagesContext.Client.GetMessages(
+            mailboxId: mailboxModel.Id).Result;
 
         var actualTable = messageModels.Select(mm => mm.Contents).ToArray();
 
@@ -250,7 +253,7 @@ public class MessagesStepDefinitions
     }
 
     [When(@"Message with contents '(.*)' in GroupMailbox for (.*) is updated to contents '(.*)'")]
-    public async void GroupMessageUpdated(
+    public void GroupMessageUpdated(
         string contents,
         string groupName,
         string updatedContents)
@@ -273,16 +276,16 @@ public class MessagesStepDefinitions
         };
 
         // update the message
-        var messageModel = await _messagesContext.Client.UpdateMessage(
+        var messageModel = _messagesContext.Client.UpdateMessage(
             mailboxId: messageModelFromContext.MailboxId,
             messageId: messageModelFromContext.MessageId,
-            request: request);
+            request: request).Result;
 
         _messagesContext.Add(messageModel);
     }
 
     [When(@"Message with contents '(.*)' in GroupMailbox for (.*) is deleted")]
-    public async void GroupMessageDeleted(
+    public void GroupMessageDeleted(
         string contents,
         string groupName)
     {
@@ -296,13 +299,13 @@ public class MessagesStepDefinitions
         var messageModelFromContext = _messagesContext.Single(mm => mm.MailboxId == mailboxModel.Id && mm.Contents == contents);
 
         // delete the message
-        var messageModel = await _messagesContext.Client.DeleteMessage(
+        var messageModel = _messagesContext.Client.DeleteMessage(
             mailboxId: messageModelFromContext.MailboxId,
-            messageId: messageModelFromContext.MessageId);
+            messageId: messageModelFromContext.MessageId).Result;
     }
 
     [Then(@"Message with contents '(.*)' in GroupMailbox for (.*) is valid")]
-    public async void GroupMessageIsValid(
+    public void GroupMessageIsValid(
         string contents,
         string groupName)
     {
@@ -316,9 +319,9 @@ public class MessagesStepDefinitions
         var messageModelFromContext = _messagesContext.Single(mm => mm.MailboxId == mailboxModel.Id && mm.Contents == contents);
 
         // get the message
-        var messageModel = await _messagesContext.Client.GetMessage(
+        var messageModel = _messagesContext.Client.GetMessage(
             mailboxId: messageModelFromContext.MailboxId,
-            messageId: messageModelFromContext.MessageId);
+            messageId: messageModelFromContext.MessageId).Result;
 
         Assert.Multiple(() =>
         {

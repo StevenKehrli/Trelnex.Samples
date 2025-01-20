@@ -1,5 +1,5 @@
 using System.Net;
-using TechTalk.SpecFlow;
+using Reqnroll;
 using Trelnex.Core;
 using Trelnex.Integration.Tests.Groups;
 using Trelnex.Integration.Tests.Users;
@@ -34,25 +34,25 @@ public class MailboxesStepDefinitions
     }
 
     [Given(@"UserMailbox for (.*) exists")]
-    public async void UserMailboxCreated(
+    public void UserMailboxCreated(
         string userName)
     {
         var userModel = _usersContext.Single(gm => gm.UserName == userName);
 
         // create the mailbox
-        var mailboxModel = await _mailboxesContext.Client.GetUserMailbox(userModel.Id);
+        var mailboxModel = _mailboxesContext.Client.GetUserMailbox(userModel.Id).Result;
 
         _mailboxesContext.Add(mailboxModel);
     }
 
     [Then(@"UserMailbox for (.*) is valid")]
-    public async void UserMailboxIsValid(
+    public void UserMailboxIsValid(
         string userName)
     {
         var userModel = _usersContext.Single(gm => gm.UserName == userName);
 
         // get the mailbox
-        var mailboxModel = await _mailboxesContext.Client.GetUserMailbox(userModel.Id);
+        var mailboxModel = _mailboxesContext.Client.GetUserMailbox(userModel.Id).Result;
 
         Assert.Multiple(() =>
         {
@@ -62,25 +62,25 @@ public class MailboxesStepDefinitions
     }
 
     [Given(@"GroupMailbox for (.*) exists")]
-    public async void GroupMailboxCreated(
+    public void GroupMailboxCreated(
         string groupName)
     {
         var groupModel = _groupsContext.Single(gm => gm.GroupName == groupName);
 
         // create the mailbox
-        var mailboxModel = await _mailboxesContext.Client.GetGroupMailbox(groupModel.Id);
+        var mailboxModel = _mailboxesContext.Client.GetGroupMailbox(groupModel.Id).Result;
 
         _mailboxesContext.Add(mailboxModel);
     }
 
     [Then(@"GroupMailbox for (.*) is valid")]
-    public async void GroupMailboxIsValid(
+    public void GroupMailboxIsValid(
         string groupName)
     {
         var groupModel = _groupsContext.Single(gm => gm.GroupName == groupName);
 
         // get the mailbox
-        var mailboxModel = await _mailboxesContext.Client.GetGroupMailbox(groupModel.Id);
+        var mailboxModel = _mailboxesContext.Client.GetGroupMailbox(groupModel.Id).Result;
 
         Assert.Multiple(() =>
         {

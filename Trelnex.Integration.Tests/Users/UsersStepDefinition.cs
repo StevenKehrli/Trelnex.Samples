@@ -1,5 +1,5 @@
 using System.Net;
-using TechTalk.SpecFlow;
+using Reqnroll;
 using Trelnex.Core;
 using Trelnex.Users.Client;
 
@@ -25,7 +25,7 @@ public class UsersStepDefinitions
 
     [Given(@"User (.*) exists")]
     [When(@"User (.*) is created")]
-    public async void UserCreated(
+    public void UserCreated(
         string userName)
     {
         if (_usersContext.Exists(um => um.UserName == userName))
@@ -40,19 +40,19 @@ public class UsersStepDefinitions
         };
 
         // create the user
-        var userModel = await _usersContext.Client.CreateUser(request);
+        var userModel = _usersContext.Client.CreateUser(request).Result;
 
         _usersContext.Add(userModel);
     }
 
     [Then(@"User (.*) is valid")]
-    public async void UserIsValid(
+    public void UserIsValid(
         string userName)
     {
         var userModelFromContext = _usersContext.Single(um => um.UserName == userName);
 
         // get the user
-        var userModel = await _usersContext.Client.GetUser(userModelFromContext.Id);
+        var userModel = _usersContext.Client.GetUser(userModelFromContext.Id).Result;
 
         Assert.Multiple(() =>
         {

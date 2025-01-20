@@ -1,5 +1,5 @@
 using System.Net;
-using TechTalk.SpecFlow;
+using Reqnroll;
 using Trelnex.Core;
 using Trelnex.Groups.Client;
 
@@ -25,7 +25,7 @@ public class GroupsStepDefinitions
 
     [Given(@"Group (.*) exists")]
     [When(@"Group (.*) is created")]
-    public async void GroupCreated(
+    public void GroupCreated(
         string groupName)
     {
         if (_groupsContext.Exists(um => um.GroupName == groupName))
@@ -40,19 +40,19 @@ public class GroupsStepDefinitions
         };
 
         // create the group
-        var groupModel = await _groupsContext.Client.CreateGroup(request);
+        var groupModel = _groupsContext.Client.CreateGroup(request).Result;
 
         _groupsContext.Add(groupModel);
     }
 
     [Then(@"Group (.*) is valid")]
-    public async void GroupIsValid(
+    public void GroupIsValid(
         string groupName)
     {
         var groupModelFromContext = _groupsContext.Single(um => um.GroupName == groupName);
 
         // get the group
-        var groupModel = await _groupsContext.Client.GetGroup(groupModelFromContext.Id);
+        var groupModel = _groupsContext.Client.GetGroup(groupModelFromContext.Id).Result;
 
         Assert.Multiple(() =>
         {

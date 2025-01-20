@@ -1,4 +1,6 @@
+using Microsoft.Extensions.DependencyInjection;
 using Trelnex.Core.Client;
+using Trelnex.Core.Identity;
 
 namespace Trelnex.Messages.Client;
 
@@ -61,19 +63,19 @@ public interface IMessagesClient
 /// Initializes a new instance of the <see cref="MessagesClient"/>.
 /// </summary>
 /// <param name="httpClientFactory">The specified <see cref="IHttpClientFactory"/> to create and configure an <see cref="HttpClient"/> instance.</param>
-/// <param name="getAuthorizationHeader">The specified function to get the authorization header.</param>
+/// <param name="tokenProvider">The specified <see cref="IAccessTokenProvider"/> to get the access token.</param>
 /// <param name="baseUri">The base <see cref="Uri"/> to build the request <see cref="Uri"/>.</param>
-public class MessagesClient(
+internal class MessagesClient(
     IHttpClientFactory httpClientFactory,
-    Func<string> getAuthorizationHeader,
-    Uri baseUri)
+    [FromKeyedServices(MessagesClient.Name)] IAccessTokenProvider tokenProvider,
+    [FromKeyedServices(MessagesClient.Name)] Uri baseUri)
     : BaseClient(httpClientFactory), IMessagesClient
 {
     /// <summary>
     /// Gets the name of this client.
     /// </summary>
     /// <returns>The name of this client.</returns>
-    public static string Name => "Messages";
+    public const string Name = "Messages";
 
     /// <summary>
     /// Creates the specified message.
@@ -85,10 +87,12 @@ public class MessagesClient(
         Guid mailboxId,
         CreateMessageRequest request)
     {
+        var authorizationHeader = tokenProvider.GetAuthorizationHeader();
+
         return await Post<CreateMessageRequest, MessageModel>(
             uri: baseUri.AppendPath($"/{request.MailboxId}/messages"),
             content: request,
-            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
+            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
     }
 
     /// <summary>
@@ -100,9 +104,11 @@ public class MessagesClient(
         Guid mailboxId,
         Guid messageId)
     {
+        var authorizationHeader = tokenProvider.GetAuthorizationHeader();
+
         return await Delete<DeleteMessageResponse>(
             uri: baseUri.AppendPath($"mailboxes/{mailboxId}/messages/{messageId}"),
-            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
+            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
     }
 
     /// <summary>
@@ -115,9 +121,11 @@ public class MessagesClient(
         Guid mailboxId,
         Guid messageId)
     {
+        var authorizationHeader = tokenProvider.GetAuthorizationHeader();
+
         return await Get<MessageModel>(
             uri: baseUri.AppendPath($"mailboxes/{mailboxId}/messages/{messageId}"),
-            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
+            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
     }
 
     /// <summary>
@@ -128,9 +136,11 @@ public class MessagesClient(
     public async Task<MessageModel[]> GetMessages(
         Guid mailboxId)
     {
+        var authorizationHeader = tokenProvider.GetAuthorizationHeader();
+
         return await Get<MessageModel[]>(
             uri: baseUri.AppendPath($"mailboxes/{mailboxId}"),
-            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
+            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
     }
 
     /// <summary>
@@ -145,10 +155,12 @@ public class MessagesClient(
         Guid messageId,
         UpdateMessageRequest request)
     {
+        var authorizationHeader = tokenProvider.GetAuthorizationHeader();
+
         return await Put<UpdateMessageRequest, MessageModel>(
             uri: baseUri.AppendPath($"mailboxes/{mailboxId}/messages/{messageId}"),
             content: request,
-            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
+            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
     }
 
     /// <summary>

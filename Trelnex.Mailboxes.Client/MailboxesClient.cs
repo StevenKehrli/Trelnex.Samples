@@ -1,4 +1,6 @@
+using Microsoft.Extensions.DependencyInjection;
 using Trelnex.Core.Client;
+using Trelnex.Core.Identity;
 
 namespace Trelnex.Mailboxes.Client;
 
@@ -36,19 +38,19 @@ public interface IMailboxesClient
 /// Initializes a new instance of the <see cref="MailboxesClient"/>.
 /// </summary>
 /// <param name="httpClientFactory">The specified <see cref="IHttpClientFactory"/> to create and configure an <see cref="HttpClient"/> instance.</param>
-/// <param name="getAuthorizationHeader">The specified function to get the authorization header.</param>
+/// <param name="tokenProvider">The specified <see cref="IAccessTokenProvider"/> to get the access token.</param>
 /// <param name="baseUri">The base <see cref="Uri"/> to build the request <see cref="Uri"/>.</param>
-public class MailboxesClient(
+internal class MailboxesClient(
     IHttpClientFactory httpClientFactory,
-    Func<string> getAuthorizationHeader,
-    Uri baseUri)
+    [FromKeyedServices(MailboxesClient.Name)] IAccessTokenProvider tokenProvider,
+    [FromKeyedServices(MailboxesClient.Name)] Uri baseUri)
     : BaseClient(httpClientFactory), IMailboxesClient
 {
     /// <summary>
     /// Gets the name of this client.
     /// </summary>
     /// <returns>The name of this client.</returns>
-    public static string Name => "Mailboxes";
+    public const string Name = "Mailboxes";
 
     /// <summary>
     /// Get the mailbox for the specified group. Creates the mailbox if it does not exist.
@@ -58,9 +60,11 @@ public class MailboxesClient(
     public async Task<MailboxModel> GetGroupMailbox(
         Guid groupId)
     {
+        var authorizationHeader = tokenProvider.GetAuthorizationHeader();
+
         return await Get<MailboxModel>(
             uri: baseUri.AppendPath($"/groups/{groupId}/mailbox"),
-            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
+            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
     }
 
     /// <summary>
@@ -71,9 +75,11 @@ public class MailboxesClient(
     public async Task<MailboxModel> GetMailbox(
         Guid mailboxId)
     {
+        var authorizationHeader = tokenProvider.GetAuthorizationHeader();
+
         return await Get<MailboxModel>(
             uri: baseUri.AppendPath($"/mailboxes/{mailboxId}"),
-            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
+            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
     }
 
     /// <summary>
@@ -84,9 +90,11 @@ public class MailboxesClient(
     public async Task<MailboxModel> GetUserMailbox(
         Guid userId)
     {
+        var authorizationHeader = tokenProvider.GetAuthorizationHeader();
+
         return await Get<MailboxModel>(
             uri: baseUri.AppendPath($"/users/{userId}/mailbox"),
-            addHeaders: headers => headers.AddAuthorizationHeader(getAuthorizationHeader));
+            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
     }
 
     /// <summary>
