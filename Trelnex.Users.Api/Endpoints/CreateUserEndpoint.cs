@@ -1,6 +1,5 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
-using Trelnex.Core;
 using Trelnex.Core.Api.Authentication;
 using Trelnex.Core.Api.Responses;
 using Trelnex.Core.Data;

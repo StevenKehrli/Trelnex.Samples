@@ -1,8 +1,7 @@
 using Trelnex.Core.Api;
 using Trelnex.Core.Api.Authentication;
-using Trelnex.Core.Api.Identity;
-using Trelnex.Core.Api.CommandProviders;
 using Trelnex.Core.Api.Swagger;
+using Trelnex.Core.Azure.Identity;
 using Trelnex.Core.Data;
 using Trelnex.Groups.Api.Endpoints;
 using Trelnex.Groups.Api.Objects;
@@ -22,7 +21,7 @@ internal static class GroupsApplication
 
         services
             .AddSwaggerToServices()
-            .AddCredentialFactory(
+            .AddAzureIdentity(
                 configuration,
                 bootstrapLogger)
             .AddCosmosCommandProviders(

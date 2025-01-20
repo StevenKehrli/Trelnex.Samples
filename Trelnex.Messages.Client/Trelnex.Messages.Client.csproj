@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Trelnex.Core.Client" Version="3.0.0"/>
+        <ProjectReference Include="..\Trelnex.Client.Common\Trelnex.Client.Common.csproj" />
     </ItemGroup>
 
 </Project>

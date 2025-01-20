@@ -4,7 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Trelnex.Mailboxes.Client</RootNamespace>
+        <RootNamespace>Trelnex.Client.Shared</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Trelnex.Client.Common\Trelnex.Client.Common.csproj" />
+        <PackageReference Include="Trelnex.Core" Version="1.0.0" />
     </ItemGroup>
 
 </Project>

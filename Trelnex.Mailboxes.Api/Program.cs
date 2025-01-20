@@ -1,8 +1,7 @@
 using Trelnex.Core.Api;
 using Trelnex.Core.Api.Authentication;
-using Trelnex.Core.Api.CommandProviders;
-using Trelnex.Core.Api.Identity;
 using Trelnex.Core.Api.Swagger;
+using Trelnex.Core.Azure.Identity;
 using Trelnex.Core.Data;
 using Trelnex.Groups.Client;
 using Trelnex.Mailboxes.Api.Endpoints;
@@ -24,7 +23,7 @@ internal static class MailboxesApplication
 
         services
             .AddSwaggerToServices()
-            .AddCredentialFactory(
+            .AddAzureIdentity(
                 configuration,
                 bootstrapLogger)
             .AddCosmosCommandProviders(
@@ -32,11 +31,9 @@ internal static class MailboxesApplication
                 bootstrapLogger,
                 options => options.AddMailboxesCommandProviders())
             .WithGroupsClient(
-                configuration,
-                bootstrapLogger)
+                configuration)
             .WithUsersClient(
-                configuration,
-                bootstrapLogger);
+                configuration);
     }
 
     public static void Use(
