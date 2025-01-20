@@ -44,7 +44,7 @@ public static class ClientExtensions
         services.AddKeyedSingleton(
             clientName,
             accessTokenProvider);
-        
+
         services.AddKeyedSingleton(
             clientName,
             clientConfiguration.BaseUri);

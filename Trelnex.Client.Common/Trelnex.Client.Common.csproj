@@ -12,7 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Trelnex.Core" Version="1.0.0" />
+        <PackageReference Include="Trelnex.Core" Version="1.1.0" />
+        <ProjectReference Include="/Users/stevenkehrli/github/Trelnex/Trelnex.Core/Trelnex.Core.csproj" />
     </ItemGroup>
 
 </Project>
