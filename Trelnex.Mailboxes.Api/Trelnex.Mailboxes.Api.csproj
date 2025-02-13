@@ -9,8 +9,8 @@
 
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="Trelnex.Core.Api" Version="1.1.0" />
-        <PackageReference Include="Trelnex.Core.Azure" Version="1.1.0" />
+        <PackageReference Include="Trelnex.Core.Api" Version="2.0.0" />
+        <PackageReference Include="Trelnex.Core.Azure" Version="2.0.0" />
     </ItemGroup>
 
     <ItemGroup>

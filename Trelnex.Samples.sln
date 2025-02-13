@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trelnex.Client.Common", "Trelnex.Client.Common\Trelnex.Client.Common.csproj", "{F4265097-F8B1-4DD4-86A6-24CA75DE99A2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trelnex.Groups.Api", "Trelnex.Groups.Api\Trelnex.Groups.Api.csproj", "{8BA7A1E4-81F0-4BB7-A184-045AECDD1612}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trelnex.Groups.Client", "Trelnex.Groups.Client\Trelnex.Groups.Client.csproj", "{5B5AF5C3-96CA-46D9-9299-1BD1079364A6}"
@@ -29,10 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F4265097-F8B1-4DD4-86A6-24CA75DE99A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4265097-F8B1-4DD4-86A6-24CA75DE99A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4265097-F8B1-4DD4-86A6-24CA75DE99A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4265097-F8B1-4DD4-86A6-24CA75DE99A2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8BA7A1E4-81F0-4BB7-A184-045AECDD1612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8BA7A1E4-81F0-4BB7-A184-045AECDD1612}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BA7A1E4-81F0-4BB7-A184-045AECDD1612}.Release|Any CPU.ActiveCfg = Release|Any CPU

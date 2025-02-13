@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Trelnex.Client.Common;
+using Trelnex.Core.Client;
 
 namespace Trelnex.Messages.Client;
 
@@ -19,8 +19,7 @@ public static class ClientExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        return services.WithCommonClient<IMessagesClient, MessagesClient>(
-            configuration: configuration,
-            clientName: MessagesClient.Name);
+        return services.AddClient<IMessagesClient, MessagesClient>(
+            configuration: configuration);
     }
 }
