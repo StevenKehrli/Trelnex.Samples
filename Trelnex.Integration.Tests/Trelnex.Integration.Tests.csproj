@@ -37,7 +37,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="/Users/stevenkehrli/github/Trelnex.Core/Trelnex.Core.Api/Trelnex.Core.Api.csproj" />
+        <PackageReference Include="Trelnex.Core.Api" Version="2.0.0" />
     </ItemGroup>
 
     <ItemGroup>

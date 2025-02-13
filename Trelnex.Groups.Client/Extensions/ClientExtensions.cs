@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Trelnex.Client.Common;
+using Trelnex.Core.Client;
 
 namespace Trelnex.Groups.Client;
 
@@ -20,8 +19,7 @@ public static class ClientExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        return services.WithCommonClient<IGroupsClient, GroupsClient>(
-            configuration: configuration,
-            clientName: GroupsClient.Name);
+        return services.AddClient<IGroupsClient, GroupsClient>(
+            configuration: configuration);
     }
 }

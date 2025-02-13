@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using FluentValidation;
 using Trelnex.Core.Data;
+using Trelnex.Core.Validation;
 using Trelnex.Mailboxes.Client;
 
 namespace Trelnex.Mailboxes.Api.Objects;
