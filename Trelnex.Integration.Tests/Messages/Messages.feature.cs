@@ -21,6 +21,7 @@ namespace Trelnex.Integration.Tests.Messages
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Messages")]
+    [NUnit.Framework.FixtureLifeCycleAttribute(NUnit.Framework.LifeCycle.InstancePerTestCase)]
     public partial class MessagesFeature
     {
         
@@ -244,11 +245,12 @@ this.ScenarioInitialize(scenarioInfo);
  await testRunner.AndAsync("Message with contents \'first message\' in UserMailbox for Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 43
- await testRunner.WhenAsync(("Message with contents \'first message\' in UserMailbox for Doris is updated to cont" +
-                        "ents \'first message - updated\'"), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("Message with contents \'first message\' in UserMailbox for Doris is updated to cont" +
+                        "ents \'first message - updated\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 44
- await testRunner.ThenAsync("Message with contents \'first message - updated\' in UserMailbox for Doris is valid", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("Message with contents \'first message - updated\' in UserMailbox for Doris is valid" +
+                        "", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -459,12 +461,12 @@ this.ScenarioInitialize(scenarioInfo);
  await testRunner.AndAsync("Message with contents \'first message\' in GroupMailbox for Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 96
- await testRunner.WhenAsync(("Message with contents \'first message\' in GroupMailbox for Testers is updated to c" +
-                        "ontents \'first message - updated\'"), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+ await testRunner.WhenAsync("Message with contents \'first message\' in GroupMailbox for Testers is updated to c" +
+                        "ontents \'first message - updated\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 97
- await testRunner.ThenAsync(("Message with contents \'first message - updated\' in GroupMailbox for Testers is va" +
-                        "lid"), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("Message with contents \'first message - updated\' in GroupMailbox for Testers is va" +
+                        "lid", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
