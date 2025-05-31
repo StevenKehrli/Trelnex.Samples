@@ -10,15 +10,13 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
+using Reqnroll;
 namespace Trelnex.Integration.Tests.Messages
 {
-    using Reqnroll;
-    using System;
-    using System.Linq;
     
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
-    [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
+    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("Messages")]
     [NUnit.Framework.FixtureLifeCycleAttribute(NUnit.Framework.LifeCycle.InstancePerTestCase)]
@@ -29,41 +27,63 @@ namespace Trelnex.Integration.Tests.Messages
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Messages", "Messages", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Messages", "Messages", null, global::Reqnroll.ProgrammingLanguage.CSharp, featureTags);
         
 #line 1 "Messages.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
-        public static async System.Threading.Tasks.Task FeatureSetupAsync()
+        public static async global::System.Threading.Tasks.Task FeatureSetupAsync()
         {
         }
         
         [NUnit.Framework.OneTimeTearDownAttribute()]
-        public static async System.Threading.Tasks.Task FeatureTearDownAsync()
+        public static async global::System.Threading.Tasks.Task FeatureTearDownAsync()
         {
         }
         
         [NUnit.Framework.SetUpAttribute()]
-        public async System.Threading.Tasks.Task TestInitializeAsync()
+        public async global::System.Threading.Tasks.Task TestInitializeAsync()
         {
             testRunner = global::Reqnroll.TestRunnerManager.GetTestRunnerForAssembly(featureHint: featureInfo);
-            if (((testRunner.FeatureContext != null) 
-                        && (testRunner.FeatureContext.FeatureInfo.Equals(featureInfo) == false)))
+            try
             {
-                await testRunner.OnFeatureEndAsync();
+                if (((testRunner.FeatureContext != null) 
+                            && (testRunner.FeatureContext.FeatureInfo.Equals(featureInfo) == false)))
+                {
+                    await testRunner.OnFeatureEndAsync();
+                }
             }
-            if ((testRunner.FeatureContext == null))
+            finally
             {
-                await testRunner.OnFeatureStartAsync(featureInfo);
+                if (((testRunner.FeatureContext != null) 
+                            && testRunner.FeatureContext.BeforeFeatureHookFailed))
+                {
+                    throw new global::Reqnroll.ReqnrollException("Scenario skipped because of previous before feature hook error");
+                }
+                if ((testRunner.FeatureContext == null))
+                {
+                    await testRunner.OnFeatureStartAsync(featureInfo);
+                }
             }
         }
         
         [NUnit.Framework.TearDownAttribute()]
-        public async System.Threading.Tasks.Task TestTearDownAsync()
+        public async global::System.Threading.Tasks.Task TestTearDownAsync()
         {
-            await testRunner.OnScenarioEndAsync();
-            global::Reqnroll.TestRunnerManager.ReleaseTestRunner(testRunner);
+            if ((testRunner == null))
+            {
+                return;
+            }
+            try
+            {
+                await testRunner.OnScenarioEndAsync();
+            }
+            finally
+            {
+                global::Reqnroll.TestRunnerManager.ReleaseTestRunner(testRunner);
+                testRunner = null;
+            }
         }
         
         public void ScenarioInitialize(global::Reqnroll.ScenarioInfo scenarioInfo)
@@ -72,12 +92,12 @@ namespace Trelnex.Integration.Tests.Messages
             testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
         }
         
-        public async System.Threading.Tasks.Task ScenarioStartAsync()
+        public async global::System.Threading.Tasks.Task ScenarioStartAsync()
         {
             await testRunner.OnScenarioStartAsync();
         }
         
-        public async System.Threading.Tasks.Task ScenarioCleanupAsync()
+        public async global::System.Threading.Tasks.Task ScenarioCleanupAsync()
         {
             await testRunner.CollectScenarioErrorsAsync();
         }
@@ -85,17 +105,15 @@ namespace Trelnex.Integration.Tests.Messages
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("User Message is created")]
         [NUnit.Framework.CategoryAttribute("users")]
-        [NUnit.Framework.CategoryAttribute("mailboxes")]
         [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task UserMessageIsCreated()
+        public async global::System.Threading.Tasks.Task UserMessageIsCreated()
         {
             string[] tagsOfScenario = new string[] {
                     "users",
-                    "mailboxes",
                     "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User Message is created", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 6
+#line 5
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -105,17 +123,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 7
+#line 6
  await testRunner.GivenAsync("User Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
+#line 7
+ await testRunner.WhenAsync("Message for User Doris with contents \'first message\' is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
 #line 8
- await testRunner.AndAsync("UserMailbox for Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 9
- await testRunner.WhenAsync("Message with contents \'first message\' in UserMailbox for Doris is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 10
- await testRunner.ThenAsync("Message with contents \'first message\' in UserMailbox for Doris is valid", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("Message for User Doris with contents \'first message\' is valid", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -124,17 +139,15 @@ this.ScenarioInitialize(scenarioInfo);
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("User Messages are empty")]
         [NUnit.Framework.CategoryAttribute("users")]
-        [NUnit.Framework.CategoryAttribute("mailboxes")]
         [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task UserMessagesAreEmpty()
+        public async global::System.Threading.Tasks.Task UserMessagesAreEmpty()
         {
             string[] tagsOfScenario = new string[] {
                     "users",
-                    "mailboxes",
                     "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User Messages are empty", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 15
+#line 12
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -144,16 +157,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 16
+#line 13
  await testRunner.GivenAsync("User Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 17
- await testRunner.AndAsync("UserMailbox for Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                             "Contents"});
-#line 18
- await testRunner.ThenAsync("Messages in UserMailbox for Doris are valid", ((string)(null)), table1, "Then ");
+#line 14
+ await testRunner.ThenAsync("Messages for User Doris are valid", ((string)(null)), table1, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -162,17 +172,15 @@ this.ScenarioInitialize(scenarioInfo);
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("User Messages are valid")]
         [NUnit.Framework.CategoryAttribute("users")]
-        [NUnit.Framework.CategoryAttribute("mailboxes")]
         [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task UserMessagesAreValid()
+        public async global::System.Threading.Tasks.Task UserMessagesAreValid()
         {
             string[] tagsOfScenario = new string[] {
                     "users",
-                    "mailboxes",
                     "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User Messages are valid", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 24
+#line 19
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -182,20 +190,17 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 25
+#line 20
  await testRunner.GivenAsync("User Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 26
- await testRunner.AndAsync("UserMailbox for Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 21
+ await testRunner.WhenAsync("Message for User Doris with contents \'first message\' is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 27
- await testRunner.WhenAsync("Message with contents \'first message\' in UserMailbox for Doris is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 22
+ await testRunner.AndAsync("Message for User Doris with contents \'second message\' is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 28
- await testRunner.AndAsync("Message with contents \'second message\' in UserMailbox for Doris is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 29
- await testRunner.AndAsync("Message with contents \'third message\' in UserMailbox for Doris is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 23
+ await testRunner.AndAsync("Message for User Doris with contents \'third message\' is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
                 global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "Contents"});
@@ -205,8 +210,8 @@ this.ScenarioInitialize(scenarioInfo);
                             "second message"});
                 table2.AddRow(new string[] {
                             "third message"});
-#line 30
- await testRunner.ThenAsync("Messages in UserMailbox for Doris are valid", ((string)(null)), table2, "Then ");
+#line 24
+ await testRunner.ThenAsync("Messages for User Doris are valid", ((string)(null)), table2, "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -215,17 +220,15 @@ this.ScenarioInitialize(scenarioInfo);
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("User Message is updated")]
         [NUnit.Framework.CategoryAttribute("users")]
-        [NUnit.Framework.CategoryAttribute("mailboxes")]
         [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task UserMessageIsUpdated()
+        public async global::System.Threading.Tasks.Task UserMessageIsUpdated()
         {
             string[] tagsOfScenario = new string[] {
                     "users",
-                    "mailboxes",
                     "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User Message is updated", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 39
+#line 32
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -235,22 +238,18 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 40
+#line 33
  await testRunner.GivenAsync("User Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 41
- await testRunner.AndAsync("UserMailbox for Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 34
+ await testRunner.AndAsync("Message for User Doris with contents \'first message\' exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 42
- await testRunner.AndAsync("Message with contents \'first message\' in UserMailbox for Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 35
+ await testRunner.WhenAsync("Message for User Doris with contents \'first message\' is updated to contents \'firs" +
+                        "t message - updated\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 43
- await testRunner.WhenAsync("Message with contents \'first message\' in UserMailbox for Doris is updated to cont" +
-                        "ents \'first message - updated\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 44
- await testRunner.ThenAsync("Message with contents \'first message - updated\' in UserMailbox for Doris is valid" +
-                        "", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 36
+ await testRunner.ThenAsync("Message for User Doris with contents \'first message - updated\' is valid", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -259,17 +258,15 @@ this.ScenarioInitialize(scenarioInfo);
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("User Message is deleted")]
         [NUnit.Framework.CategoryAttribute("users")]
-        [NUnit.Framework.CategoryAttribute("mailboxes")]
         [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task UserMessageIsDeleted()
+        public async global::System.Threading.Tasks.Task UserMessageIsDeleted()
         {
             string[] tagsOfScenario = new string[] {
                     "users",
-                    "mailboxes",
                     "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("User Message is deleted", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 49
+#line 40
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -279,39 +276,65 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 50
+#line 41
  await testRunner.GivenAsync("User Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 51
- await testRunner.AndAsync("UserMailbox for Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 42
+ await testRunner.AndAsync("Message for User Doris with contents \'first message\' exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 52
- await testRunner.AndAsync("Message with contents \'first message\' in UserMailbox for Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line 43
+ await testRunner.WhenAsync("Message for User Doris with contents \'first message\' is deleted", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 53
- await testRunner.WhenAsync("Message with contents \'first message\' in UserMailbox for Doris is deleted", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 44
+ await testRunner.ThenAsync("Message for User Doris with contents \'first message\' is not found", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("UpdateMessage with bad messageId throws NotFound")]
+        [NUnit.Framework.CategoryAttribute("users")]
+        [NUnit.Framework.CategoryAttribute("messages")]
+        public async global::System.Threading.Tasks.Task UpdateMessageWithBadMessageIdThrowsNotFound()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "users",
+                    "messages"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("UpdateMessage with bad messageId throws NotFound", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 48
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 49
+ await testRunner.GivenAsync("User Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 50
+ await testRunner.ThenAsync("UpdateMessage for User Doris with bad messageId throws NotFound", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("DeleteMessage with bad messageId throws NotFound")]
+        [NUnit.Framework.CategoryAttribute("users")]
+        [NUnit.Framework.CategoryAttribute("messages")]
+        public async global::System.Threading.Tasks.Task DeleteMessageWithBadMessageIdThrowsNotFound()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "users",
+                    "messages"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("DeleteMessage with bad messageId throws NotFound", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 54
- await testRunner.ThenAsync("Message with contents \'first message\' in UserMailbox for Doris is not found", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Group Message is created")]
-        [NUnit.Framework.CategoryAttribute("groups")]
-        [NUnit.Framework.CategoryAttribute("mailboxes")]
-        [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task GroupMessageIsCreated()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "groups",
-                    "mailboxes",
-                    "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Group Message is created", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 59
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -321,324 +344,11 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 60
- await testRunner.GivenAsync("Group Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line 55
+ await testRunner.GivenAsync("User Doris exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 61
- await testRunner.AndAsync("GroupMailbox for Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 62
- await testRunner.WhenAsync("Message with contents \'first message\' in GroupMailbox for Testers is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 63
- await testRunner.ThenAsync("Message with contents \'first message\' in GroupMailbox for Testers is valid", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Group Messages are empty")]
-        [NUnit.Framework.CategoryAttribute("groups")]
-        [NUnit.Framework.CategoryAttribute("mailboxes")]
-        [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task GroupMessagesAreEmpty()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "groups",
-                    "mailboxes",
-                    "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Group Messages are empty", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 68
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 69
- await testRunner.GivenAsync("Group Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 70
- await testRunner.AndAsync("GroupMailbox for Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
-                            "Contents"});
-#line 71
- await testRunner.ThenAsync("Messages in GroupMailbox for Testers are valid", ((string)(null)), table3, "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Group Messages are valid")]
-        [NUnit.Framework.CategoryAttribute("groups")]
-        [NUnit.Framework.CategoryAttribute("mailboxes")]
-        [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task GroupMessagesAreValid()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "groups",
-                    "mailboxes",
-                    "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Group Messages are valid", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 77
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 78
- await testRunner.GivenAsync("Group Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 79
- await testRunner.AndAsync("GroupMailbox for Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 80
- await testRunner.WhenAsync("Message with contents \'first message\' in GroupMailbox for Testers is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 81
- await testRunner.AndAsync("Message with contents \'second message\' in GroupMailbox for Testers is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 82
- await testRunner.AndAsync("Message with contents \'third message\' in GroupMailbox for Testers is created", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
-                            "Contents"});
-                table4.AddRow(new string[] {
-                            "first message"});
-                table4.AddRow(new string[] {
-                            "second message"});
-                table4.AddRow(new string[] {
-                            "third message"});
-#line 83
- await testRunner.ThenAsync("Messages in GroupMailbox for Testers are valid", ((string)(null)), table4, "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Group Message is updated")]
-        [NUnit.Framework.CategoryAttribute("groups")]
-        [NUnit.Framework.CategoryAttribute("mailboxes")]
-        [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task GroupMessageIsUpdated()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "groups",
-                    "mailboxes",
-                    "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Group Message is updated", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 92
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 93
- await testRunner.GivenAsync("Group Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 94
- await testRunner.AndAsync("GroupMailbox for Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 95
- await testRunner.AndAsync("Message with contents \'first message\' in GroupMailbox for Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 96
- await testRunner.WhenAsync("Message with contents \'first message\' in GroupMailbox for Testers is updated to c" +
-                        "ontents \'first message - updated\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 97
- await testRunner.ThenAsync("Message with contents \'first message - updated\' in GroupMailbox for Testers is va" +
-                        "lid", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Group Message is deleted")]
-        [NUnit.Framework.CategoryAttribute("groups")]
-        [NUnit.Framework.CategoryAttribute("mailboxes")]
-        [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task GroupMessageIsDeleted()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "groups",
-                    "mailboxes",
-                    "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Group Message is deleted", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 102
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 103
- await testRunner.GivenAsync("Group Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 104
- await testRunner.AndAsync("GroupMailbox for Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 105
- await testRunner.AndAsync("Message with contents \'first message\' in GroupMailbox for Testers exists", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 106
- await testRunner.WhenAsync("Message with contents \'first message\' in GroupMailbox for Testers is deleted", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 107
- await testRunner.ThenAsync("Message with contents \'first message\' in GroupMailbox for Testers is not found", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("CreateMessage with bad mailboxId throws BadRequest")]
-        [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task CreateMessageWithBadMailboxIdThrowsBadRequest()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("CreateMessage with bad mailboxId throws BadRequest", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 110
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 111
- await testRunner.ThenAsync("CreateMessage with bad mailboxId throws BadRequest", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("UpdateMessage with bad mailboxId throws BadRequest")]
-        [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task UpdateMessageWithBadMailboxIdThrowsBadRequest()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("UpdateMessage with bad mailboxId throws BadRequest", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 114
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 115
- await testRunner.ThenAsync("UpdateMessage with bad mailboxId throws BadRequest", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("UpdateMessage with bad messageId throws BadRequest")]
-        [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task UpdateMessageWithBadMessageIdThrowsBadRequest()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("UpdateMessage with bad messageId throws BadRequest", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 118
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 119
- await testRunner.ThenAsync("UpdateMessage with bad messageId throws BadRequest", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("UpdateMessage not found")]
-        [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task UpdateMessageNotFound()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("UpdateMessage not found", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 122
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 123
- await testRunner.ThenAsync("UpdateMessage not found", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("DeleteMessage not found")]
-        [NUnit.Framework.CategoryAttribute("messages")]
-        public async System.Threading.Tasks.Task DeleteMessageNotFound()
-        {
-            string[] tagsOfScenario = new string[] {
-                    "messages"};
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("DeleteMessage not found", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 126
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 127
- await testRunner.ThenAsync("DeleteMessage not found", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 56
+ await testRunner.ThenAsync("DeleteMessage for User Doris with bad messageId throws NotFound", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

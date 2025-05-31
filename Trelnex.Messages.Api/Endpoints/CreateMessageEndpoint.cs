@@ -1,14 +1,11 @@
-using System.Net;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using Trelnex.Core;
 using Trelnex.Core.Api.Authentication;
-using Trelnex.Core.Api.Responses;
 using Trelnex.Core.Data;
-using Trelnex.Mailboxes.Client;
-using Trelnex.Messages.Api.Objects;
+using Trelnex.Messages.Api.Items;
 using Trelnex.Messages.Client;
+using Trelnex.Users.Client;
 
 namespace Trelnex.Messages.Api.Endpoints;
 
@@ -18,50 +15,43 @@ internal static class CreateMessageEndpoint
         IEndpointRouteBuilder erb)
     {
         erb.MapPost(
-                "/mailboxes/{mailboxId:guid}/messages",
+                "/users/{userId:guid}/messages",
                 HandleRequest)
             .RequirePermission<MessagesPermission.MessagesCreatePolicy>()
             .Accepts<CreateMessageRequest>(MediaTypeNames.Application.Json)
             .Produces<MessageModel>()
-            .Produces<HttpStatusCodeResponse>(StatusCodes.Status401Unauthorized)
-            .Produces<HttpStatusCodeResponse>(StatusCodes.Status403Forbidden)
+            .Produces<ProblemDetails>(StatusCodes.Status401Unauthorized)
+            .Produces<ProblemDetails>(StatusCodes.Status403Forbidden)
             .WithName("CreateMessage")
             .WithDescription("Creates a new message")
             .WithTags("Messages")
-            .ValidateMailbox(efiContext =>
+            .ValidateUser(efiContext =>
             {
                 // get our request parameters
-                var mailboxesClient = efiContext.Arguments.OfType<IMailboxesClient>().First();
+                var usersClient = efiContext.Arguments.OfType<IUsersClient>().First();
                 var requestParameters = efiContext.Arguments.OfType<RequestParameters>().First();
 
-                return (mailboxesClient, requestParameters.MailboxId);
+                return (usersClient, requestParameters.UserId);
             });
     }
 
     public static async Task<MessageModel> HandleRequest(
-        [FromServices] IMailboxesClient mailboxesClient,
-        [FromServices] ICommandProvider<IMessage> messageProvider,
-        [FromServices] IRequestContext requestContext,
+        [FromServices] IUsersClient usersClient,
+        [FromServices] ICommandProvider<IMessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
-        // validate the mailbox id from the route and the mailbox id from the request
-        if (parameters.MailboxId != parameters.Request.MailboxId)
-        {
-            throw new HttpStatusCodeException(HttpStatusCode.BadRequest, "Mismatch on 'mailboxId' between path and body.");
-        }
-
         // create a new message id
         var id = Guid.NewGuid().ToString();
 
-        // create the message dto
+        // create the message item
         var messageCreateCommand = messageProvider.Create(
             id: id,
-            partitionKey: parameters.MailboxId.ToString());
+            partitionKey: parameters.UserId.ToString());
 
         messageCreateCommand.Item.Contents = parameters.Request.Contents;
 
         // save in data store
-        var messageCreateResult = await messageCreateCommand.SaveAsync(requestContext, default);
+        var messageCreateResult = await messageCreateCommand.SaveAsync(default);
 
         // return the message model
         return messageCreateResult.Item.ConvertToModel();
@@ -69,9 +59,9 @@ internal static class CreateMessageEndpoint
 
     public class RequestParameters
     {
-        [FromRoute(Name = "mailboxId")]
-        [SwaggerParameter(Description = "The specified mailbox id", Required = true)]
-        public required Guid MailboxId { get; init; }
+        [FromRoute(Name = "userId")]
+        [SwaggerParameter(Description = "The specified user id", Required = true)]
+        public required Guid UserId { get; init; }
 
         [FromBody]
         public required CreateMessageRequest Request { get; init; }

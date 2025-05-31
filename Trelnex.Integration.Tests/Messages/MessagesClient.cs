@@ -1,120 +1,102 @@
 using Trelnex.Core.Data;
-using Trelnex.Mailboxes.Client;
 using Trelnex.Messages.Api.Endpoints;
-using Trelnex.Messages.Api.Objects;
+using Trelnex.Messages.Api.Items;
 using Trelnex.Messages.Client;
+using Trelnex.Users.Client;
 
 namespace Trelnex.Integration.Tests.Messages;
 
 internal class MessagesClient(
-    IMailboxesClient mailboxesClient,
-    ICommandProvider<IMessage> messageProvider) : IMessagesClient
+    IUsersClient usersClient,
+    ICommandProvider<IMessageItem> messageProvider) : IMessagesClient
 {
     public async Task<MessageModel> CreateMessage(
-        Guid mailboxId,
+        Guid userId,
         CreateMessageRequest request)
     {
-        // create a mock request context
-        var requestContext = TestRequestContext.Create();
-
         // format the request arguments
         var parameters = new CreateMessageEndpoint.RequestParameters()
         {
-            MailboxId = mailboxId,
+            UserId = userId,
             Request = request
         };
 
         // invoke
         return await CreateMessageEndpoint.HandleRequest(
-            mailboxesClient: mailboxesClient,
+            usersClient: usersClient,
             messageProvider: messageProvider,
-            requestContext: requestContext,
             parameters: parameters);
     }
 
     public async Task<DeleteMessageResponse> DeleteMessage(
-        Guid mailboxId,
+        Guid userId,
         Guid messageId)
     {
-        // create a mock request context
-        var requestContext = TestRequestContext.Create();
-
         // format the request arguments
         var parameters = new DeleteMessageEndpoint.RequestParameters()
         {
-            MailboxId = mailboxId,
+            UserId = userId,
             MessageId = messageId
         };
 
         // invoke
         return await DeleteMessageEndpoint.HandleRequest(
-            mailboxesClient: mailboxesClient,
+            usersClient: usersClient,
             messageProvider: messageProvider,
-            requestContext: requestContext,
             parameters: parameters);
     }
 
     public async Task<MessageModel> GetMessage(
-        Guid mailboxId,
+        Guid userId,
         Guid messageId)
     {
-        // create a mock request context
-        var requestContext = TestRequestContext.Create();
-
         // format the request arguments
         var parameters = new GetMessageEndpoint.RequestParameters()
         {
-            MailboxId = mailboxId,
+            UserId = userId,
             MessageId = messageId
         };
 
         // invoke
         return await GetMessageEndpoint.HandleRequest(
-            mailboxesClient: mailboxesClient,
+            usersClient: usersClient,
             messageProvider: messageProvider,
             parameters: parameters);
     }
 
     public async Task<MessageModel[]> GetMessages(
-        Guid mailboxId)
+        Guid userId)
     {
-        // create a mock request context
-        var requestContext = TestRequestContext.Create();
-
         // format the request arguments
         var parameters = new GetMessagesEndpoint.RequestParameters()
         {
-            MailboxId = mailboxId
+            UserId = userId
         };
 
         // invoke
         return await GetMessagesEndpoint.HandleRequest(
-            mailboxesClient: mailboxesClient,
+            usersClient: usersClient,
             messageProvider: messageProvider,
             parameters: parameters);
     }
 
     public async Task<MessageModel> UpdateMessage(
-        Guid mailboxId,
+        Guid userId,
         Guid messageId,
         UpdateMessageRequest request)
     {
-        // create a mock request context
-        var requestContext = TestRequestContext.Create();
-
         // format the request arguments
         var parameters = new UpdateMessageEndpoint.RequestParameters()
         {
-            MailboxId = mailboxId,
+            UserId = userId,
             MessageId = messageId,
             Request = request
         };
 
         // invoke
         return await UpdateMessageEndpoint.HandleRequest(
-            mailboxesClient: mailboxesClient,
+            usersClient: usersClient,
             messageProvider: messageProvider,
-            requestContext: requestContext,
             parameters: parameters);
     }
 }

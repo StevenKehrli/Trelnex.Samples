@@ -12,7 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Trelnex.Core" Version="2.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.1.2" />
+        <PackageReference Include="Trelnex.Core" Version="0.1.0" />
     </ItemGroup>
 
 </Project>

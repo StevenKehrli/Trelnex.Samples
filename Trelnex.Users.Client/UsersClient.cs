@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using Trelnex.Core.Client;
 using Trelnex.Core.Identity;
 
@@ -33,8 +32,8 @@ public interface IUsersClient
 /// <param name="tokenProvider">The specified <see cref="IAccessTokenProvider"/> to get the access token.</param>
 internal class UsersClient(
     HttpClient httpClient,
-    IAccessTokenProvider<UsersClient> tokenProvider)
-    : BaseClient(httpClient), IUsersClient
+    IAccessTokenProvider tokenProvider)
+    : BaseClient(httpClient, tokenProvider), IUsersClient
 {
     /// <summary>
     /// Creates the specified user.
@@ -44,12 +43,9 @@ internal class UsersClient(
     public async Task<UserModel> CreateUser(
         CreateUserRequest request)
     {
-        var authorizationHeader = tokenProvider.GetAccessToken().GetAuthorizationHeader();
-
         return await Post<CreateUserRequest, UserModel>(
             uri: BaseAddress.AppendPath($"/users"),
-            content: request,
-            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
+            content: request);
     }
 
     /// <summary>
@@ -60,10 +56,7 @@ internal class UsersClient(
     public async Task<UserModel> GetUser(
         Guid userId)
     {
-        var authorizationHeader = tokenProvider.GetAccessToken().GetAuthorizationHeader();
-
         return await Get<UserModel>(
-            uri: BaseAddress.AppendPath($"/users/{userId}"),
-            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
+            uri: BaseAddress.AppendPath($"/users/{userId}"));
     }
 }

@@ -3,11 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Trelnex.Core;
 using Trelnex.Core.Api.Authentication;
-using Trelnex.Core.Api.Responses;
 using Trelnex.Core.Data;
-using Trelnex.Mailboxes.Client;
-using Trelnex.Messages.Api.Objects;
+using Trelnex.Messages.Api.Items;
 using Trelnex.Messages.Client;
+using Trelnex.Users.Client;
 
 namespace Trelnex.Messages.Api.Endpoints;
 
@@ -17,40 +16,37 @@ internal static class GetMessageEndpoint
         IEndpointRouteBuilder erb)
     {
         erb.MapGet(
-                "/mailboxes/{mailboxId:guid}/messages/{messageId:guid}",
+                "/users/{userId:guid}/messages/{messageId:guid}",
                 HandleRequest)
             .RequirePermission<MessagesPermission.MessagesReadPolicy>()
             .Produces<MessageModel>()
-            .Produces<HttpStatusCodeResponse>(StatusCodes.Status401Unauthorized)
-            .Produces<HttpStatusCodeResponse>(StatusCodes.Status403Forbidden)
+            .Produces<ProblemDetails>(StatusCodes.Status401Unauthorized)
+            .Produces<ProblemDetails>(StatusCodes.Status403Forbidden)
             .WithName("GetMessage")
             .WithDescription("Gets the specified message")
             .WithTags("Messages")
-            .ValidateMailbox(efiContext =>
+            .ValidateUser(efiContext =>
             {
                 // get our request parameters
-                var mailboxesClient = efiContext.Arguments.OfType<IMailboxesClient>().First();
+                var usersClient = efiContext.Arguments.OfType<IUsersClient>().First();
                 var requestParameters = efiContext.Arguments.OfType<RequestParameters>().First();
 
-                return (mailboxesClient, requestParameters.MailboxId);
+                return (usersClient, requestParameters.UserId);
             });
     }
 
     public static async Task<MessageModel> HandleRequest(
-        [FromServices] IMailboxesClient mailboxesClient,
-        [FromServices] ICommandProvider<IMessage> messageProvider,
+        [FromServices] IUsersClient usersClient,
+        [FromServices] ICommandProvider<IMessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
-        // get the message dto from data store
+        // get the message item from data store
         var messageReadResult = await messageProvider.ReadAsync(
             id: parameters.MessageId.ToString(),
-            partitionKey: parameters.MailboxId.ToString());
+            partitionKey: parameters.UserId.ToString());
 
         // throw if not found
-        if (messageReadResult is null)
-        {
-            throw new HttpStatusCodeException(HttpStatusCode.NotFound);
-        }
+        if (messageReadResult is null) throw new HttpStatusCodeException(HttpStatusCode.NotFound);
 
         // return the message model
         return messageReadResult.Item.ConvertToModel();
@@ -58,9 +54,9 @@ internal static class GetMessageEndpoint
 
     public class RequestParameters
     {
-        [FromRoute(Name = "mailboxId")]
-        [SwaggerParameter(Description = "The specified mailbox id", Required = true)]
-        public required Guid MailboxId { get; init; }
+        [FromRoute(Name = "userId")]
+        [SwaggerParameter(Description = "The specified user id", Required = true)]
+        public required Guid UserId { get; init; }
 
         [FromRoute(Name = "messageId")]
         [SwaggerParameter(Description = "The specified message id", Required = true)]

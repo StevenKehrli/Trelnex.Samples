@@ -1,12 +1,13 @@
 using Trelnex.Core.Api;
 using Trelnex.Core.Api.Authentication;
+using Trelnex.Core.Api.Client;
 using Trelnex.Core.Api.Swagger;
 using Trelnex.Core.Azure.CommandProviders;
 using Trelnex.Core.Azure.Identity;
 using Trelnex.Core.Data;
-using Trelnex.Mailboxes.Client;
 using Trelnex.Messages.Api.Endpoints;
-using Trelnex.Messages.Api.Objects;
+using Trelnex.Messages.Api.Items;
+using Trelnex.Users.Client;
 
 Application.Run(args, MessagesApplication.Add, MessagesApplication.Use);
 
@@ -30,8 +31,9 @@ internal static class MessagesApplication
                 configuration,
                 bootstrapLogger,
                 options => options.AddMessagesCommandProviders())
-            .WithMailboxesClient(
-                configuration);
+            .AddClient(
+                configuration,
+                new UsersClientFactory());
     }
 
     public static void Use(
@@ -46,9 +48,9 @@ internal static class MessagesApplication
         this ICommandProviderOptions options)
     {
         return options
-            .Add<IMessage, Message>(
+            .Add<IMessageItem, MessageItem>(
                 typeName: "message",
-                validator: Message.Validator,
+                validator: MessageItem.Validator,
                 commandOperations: CommandOperations.All);
     }
 
