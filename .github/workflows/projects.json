@@ -1,0 +1,44 @@
+{
+  "projects": [
+    {
+      "name": "Trelnex.Messages.Api",
+      "dotnet_version": "9.0.x",
+      "workflows": [ "build" ],
+      "tests": "Trelnex.Integration.Tests",
+      "paths": [
+          "Trelnex.Messages.Api/**",
+          "Trelnex.Messages.Client/**"
+      ]
+    },
+    {
+      "name": "Trelnex.Messages.Client",
+      "dotnet_version": "9.0.x",
+      "workflows": [ "build" ],
+      "tests": "Trelnex.Integration.Tests",
+      "paths": [
+          "Trelnex.Messages.Api/**",
+          "Trelnex.Messages.Client/**"
+      ]
+    },
+    {
+      "name": "Trelnex.Users.Api",
+      "dotnet_version": "9.0.x",
+      "workflows": [ "build" ],
+      "tests": "Trelnex.Integration.Tests",
+      "paths": [
+          "Trelnex.Users.Api/**",
+          "Trelnex.Users.Client/**"
+      ]
+    },
+    {
+      "name": "Trelnex.Users.Client",
+      "dotnet_version": "9.0.x",
+      "workflows": [ "build" ],
+      "tests": "Trelnex.Integration.Tests",
+      "paths": [
+          "Trelnex.Users.Api/**",
+          "Trelnex.Users.Client/**"
+      ]
+    }
+  ]
+}
