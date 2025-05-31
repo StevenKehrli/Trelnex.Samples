@@ -5,7 +5,7 @@ using Trelnex.Core.Azure.CommandProviders;
 using Trelnex.Core.Azure.Identity;
 using Trelnex.Core.Data;
 using Trelnex.Users.Api.Endpoints;
-using Trelnex.Users.Api.Objects;
+using Trelnex.Users.Api.Items;
 
 Application.Run(args, UsersApplication.Add, UsersApplication.Use);
 
@@ -43,9 +43,9 @@ internal static class UsersApplication
         this ICommandProviderOptions options)
     {
         return options
-            .Add<IUser, User>(
+            .Add<IUserItem, UserItem>(
                 typeName: "user",
-                validator: User.Validator,
+                validator: UserItem.Validator,
                 commandOperations: CommandOperations.All);
     }
 

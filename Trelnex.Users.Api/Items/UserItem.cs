@@ -2,9 +2,9 @@ using System.Text.Json.Serialization;
 using FluentValidation;
 using Trelnex.Core.Data;
 
-namespace Trelnex.Users.Api.Objects;
+namespace Trelnex.Users.Api.Items;
 
-internal interface IUser : IBaseItem
+internal interface IUserItem : IBaseItem
 {
     /// <summary>
     /// The name of this user.
@@ -12,17 +12,17 @@ internal interface IUser : IBaseItem
     string UserName { get; set; }
 }
 
-internal class User : BaseItem, IUser
+internal class UserItem : BaseItem, IUserItem
 {
     [TrackChange]
     [JsonPropertyName("userName")]
     public string UserName { get; set; } = null!;
 
-    public static AbstractValidator<User> Validator { get; } = new UserValidator();
+    public static AbstractValidator<UserItem> Validator { get; } = new UserItemValidator();
 
-    private class UserValidator : AbstractValidator<User>
+    private class UserItemValidator : AbstractValidator<UserItem>
     {
-        public UserValidator()
+        public UserItemValidator()
         {
             RuleFor(k => k.UserName)
                 .NotEmpty()

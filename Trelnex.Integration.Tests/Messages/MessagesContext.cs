@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using Trelnex.Integration.Tests.InMemory;
-using Trelnex.Integration.Tests.Mailboxes;
-using Trelnex.Messages.Api.Objects;
+using Trelnex.Integration.Tests.Users;
+using Trelnex.Messages.Api.Items;
 using Trelnex.Messages.Client;
 
 namespace Trelnex.Integration.Tests.Messages;
@@ -13,18 +13,18 @@ public class MessagesContext
     private readonly Dictionary<string, MessageModel> _messageModels = [];
 
     public MessagesContext(
-        MailboxesContext mailboxesContext)
+        UsersContext usersContext)
     {
         // create the messages command providers
         var inMemoryCommandProviders = InMemoryCommandProviders.Create(
             options => options.AddMessagesCommandProviders());
 
         // get the messages command provider
-        var messageProvider = inMemoryCommandProviders.Get<IMessage>();
+        var messageProvider = inMemoryCommandProviders.Get<IMessageItem>();
 
         // create the messages client
         _messagesClient = new MessagesClient(
-            mailboxesClient: mailboxesContext.Client,
+            usersClient: usersContext.Client,
             messageProvider: messageProvider);
     }
 
@@ -33,7 +33,7 @@ public class MessagesContext
     public void Add(
         MessageModel messageModel)
     {
-        var key = $"{messageModel.MailboxId}:{messageModel.MessageId}";
+        var key = $"{messageModel.UserId}:{messageModel.MessageId}";
 
         _messageModels[key] = messageModel;
     }

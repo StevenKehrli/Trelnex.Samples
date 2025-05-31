@@ -1,9 +1,8 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using Trelnex.Core.Api.Authentication;
-using Trelnex.Core.Api.Responses;
 using Trelnex.Core.Data;
-using Trelnex.Users.Api.Objects;
+using Trelnex.Users.Api.Items;
 using Trelnex.Users.Client;
 
 namespace Trelnex.Users.Api.Endpoints;
@@ -19,23 +18,22 @@ internal static class CreateUserEndpoint
             .RequirePermission<UsersPermission.UsersCreatePolicy>()
             .Accepts<CreateUserRequest>(MediaTypeNames.Application.Json)
             .Produces<UserModel>()
-            .Produces<HttpStatusCodeResponse>(StatusCodes.Status401Unauthorized)
-            .Produces<HttpStatusCodeResponse>(StatusCodes.Status403Forbidden)
+            .Produces<ProblemDetails>(StatusCodes.Status401Unauthorized)
+            .Produces<ProblemDetails>(StatusCodes.Status403Forbidden)
             .WithName("CreateUser")
             .WithDescription("Creates a new user")
             .WithTags("Users");
     }
 
     public static async Task<UserModel> HandleRequest(
-        [FromServices] ICommandProvider<IUser> userProvider,
-        [FromServices] IRequestContext requestContext,
+        [FromServices] ICommandProvider<IUserItem> userProvider,
         [AsParameters] RequestParameters parameters)
     {
         // create a new user id
         var id = Guid.NewGuid().ToString();
         var partitionKey = id;
 
-        // create the user dto
+        // create the user item
         var userCreateCommand = userProvider.Create(
             id: id,
             partitionKey: partitionKey);
@@ -43,7 +41,7 @@ internal static class CreateUserEndpoint
         userCreateCommand.Item.UserName = parameters.Request.UserName;
 
         // save in data store
-        var userCreateResult = await userCreateCommand.SaveAsync(requestContext, default);
+        var userCreateResult = await userCreateCommand.SaveAsync(default);
 
         // return the user model
         return userCreateResult.Item.ConvertToModel();

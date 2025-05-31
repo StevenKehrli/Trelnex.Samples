@@ -3,11 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Trelnex.Core;
 using Trelnex.Core.Api.Authentication;
-using Trelnex.Core.Api.Responses;
 using Trelnex.Core.Data;
-using Trelnex.Mailboxes.Client;
-using Trelnex.Messages.Api.Objects;
+using Trelnex.Messages.Api.Items;
 using Trelnex.Messages.Client;
+using Trelnex.Users.Client;
 
 namespace Trelnex.Messages.Api.Endpoints;
 
@@ -17,59 +16,55 @@ internal static class DeleteMessageEndpoint
         IEndpointRouteBuilder erb)
     {
         erb.MapDelete(
-                "/mailboxes/{mailboxId:guid}/messages/{messageId:guid}",
+                "/users/{userId:guid}/messages/{messageId:guid}",
                 HandleRequest)
             .RequirePermission<MessagesPermission.MessagesDeletePolicy>()
             .Produces<DeleteMessageResponse>()
-            .Produces<HttpStatusCodeResponse>(StatusCodes.Status401Unauthorized)
-            .Produces<HttpStatusCodeResponse>(StatusCodes.Status403Forbidden)
+            .Produces<ProblemDetails>(StatusCodes.Status401Unauthorized)
+            .Produces<ProblemDetails>(StatusCodes.Status403Forbidden)
             .WithName("DeleteMessage")
             .WithDescription("Deletes the specified message")
             .WithTags("Messages")
-            .ValidateMailbox(efiContext =>
+            .ValidateUser(efiContext =>
             {
                 // get our request parameters
-                var mailboxesClient = efiContext.Arguments.OfType<IMailboxesClient>().First();
+                var usersClient = efiContext.Arguments.OfType<IUsersClient>().First();
                 var requestParameters = efiContext.Arguments.OfType<RequestParameters>().First();
 
-                return (mailboxesClient, requestParameters.MailboxId);
+                return (usersClient, requestParameters.UserId);
             });
     }
 
     public static async Task<DeleteMessageResponse> HandleRequest(
-        [FromServices] IMailboxesClient mailboxesClient,
-        [FromServices] ICommandProvider<IMessage> messageProvider,
-        [FromServices] IRequestContext requestContext,
+        [FromServices] IUsersClient usersClient,
+        [FromServices] ICommandProvider<IMessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
-        // delete the message dto
+        // delete the message item
         var messageDeleteCommand = await messageProvider.DeleteAsync(
             id: parameters.MessageId.ToString(),
-            partitionKey: parameters.MailboxId.ToString());
+            partitionKey: parameters.UserId.ToString());
 
         // throw if not found
-        if (messageDeleteCommand is null)
-        {
-            throw new HttpStatusCodeException(HttpStatusCode.NotFound);
-        }
+        if (messageDeleteCommand is null) throw new HttpStatusCodeException(HttpStatusCode.NotFound);
 
         // save in data store
-        var messageDeleteResult = await messageDeleteCommand.SaveAsync(requestContext, default);
+        var messageDeleteResult = await messageDeleteCommand.SaveAsync(default);
 
         // return the delete response
         return new DeleteMessageResponse
         {
-            MailboxId = Guid.Parse(messageDeleteResult.Item.PartitionKey),
+            UserId = Guid.Parse(messageDeleteResult.Item.PartitionKey),
             MessageId = Guid.Parse(messageDeleteResult.Item.Id),
-            DeletedDate = messageDeleteResult.Item.DeletedDate!.Value,
+            DeletedDateTimeOffset = messageDeleteResult.Item.DeletedDateTimeOffset!.Value,
         };
     }
 
     public class RequestParameters
     {
-        [FromRoute(Name = "mailboxId")]
-        [SwaggerParameter(Description = "The specified mailbox id", Required = true)]
-        public required Guid MailboxId { get; init; }
+        [FromRoute(Name = "userId")]
+        [SwaggerParameter(Description = "The specified user id", Required = true)]
+        public required Guid UserId { get; init; }
 
         [FromRoute(Name = "messageId")]
         [SwaggerParameter(Description = "The specified message id", Required = true)]

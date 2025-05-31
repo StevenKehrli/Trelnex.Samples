@@ -11,49 +11,49 @@ public interface IMessagesClient
     /// <summary>
     /// Creates the specified message.
     /// </summary>
-    /// <param name="mailboxId">The specified mailbox id.</param>
+    /// <param name="userId">The specified user id.</param>
     /// <param name="request">The <see cref="CreateMessageRequest"/>.</param>
     /// <returns>The new <see cref="MessageModel"/>.</returns>
     Task<MessageModel> CreateMessage(
-        Guid mailboxId,
+        Guid userId,
         CreateMessageRequest request);
 
     /// <summary>
     /// Deletes the specified message.
     /// </summary>
-    /// <param name="mailboxId">The specified mailbox id.</param>
+    /// <param name="userId">The specified user id.</param>
     /// <param name="messageId">The specified message id.</param>
     Task<DeleteMessageResponse> DeleteMessage(
-        Guid mailboxId,
+        Guid userId,
         Guid messageId);
 
     /// <summary>
     /// Gets the specified message, if it exists.
     /// </summary>
-    /// <param name="mailboxId">The specified mailbox id.</param>
+    /// <param name="userId">The specified user id.</param>
     /// <param name="messageId">The specified message id.</param>
     /// <returns>The <see cref="MessageModel"/>, if it exists.</returns>
     Task<MessageModel> GetMessage(
-        Guid mailboxId,
+        Guid userId,
         Guid messageId);
 
     /// <summary>
-    /// Gets the messages from the specified mailbox.
+    /// Gets the messages from the specified user.
     /// </summary>
-    /// <param name="mailboxId">The specified mailbox id.</param>
+    /// <param name="userId">The specified user id.</param>
     /// <returns>The array of <see cref="MessageModel"/>.</returns>
     Task<MessageModel[]> GetMessages(
-        Guid mailboxId);
+        Guid userId);
 
     /// <summary>
     /// Updates the specified message.
     /// </summary>
-    /// <param name="mailboxId">The specified mailbox id.</param>
+    /// <param name="userId">The specified user id.</param>
     /// <param name="messageId">The specified message id.</param>
     /// <param name="request">The <see cref="UpdateMessageRequest"/>.</param>
     /// <returns>The updated <see cref="MessageModel"/>.</returns>
     Task<MessageModel> UpdateMessage(
-        Guid mailboxId,
+        Guid userId,
         Guid messageId,
         UpdateMessageRequest request);
 }
@@ -65,92 +65,77 @@ public interface IMessagesClient
 /// <param name="tokenProvider">The specified <see cref="IAccessTokenProvider"/> to get the access token.</param>
 internal class MessagesClient(
     HttpClient httpClient,
-    IAccessTokenProvider<MessagesClient> tokenProvider)
-    : BaseClient(httpClient), IMessagesClient
+    IAccessTokenProvider tokenProvider)
+    : BaseClient(httpClient, tokenProvider), IMessagesClient
 {
     /// <summary>
     /// Creates the specified message.
     /// </summary>
-    /// <param name="mailboxId">The specified mailbox id.</param>
+    /// <param name="userId">The specified user id.</param>
     /// <param name="request">The <see cref="CreateMessageRequest"/>.</param>
     /// <returns>The new <see cref="MessageModel"/>.</returns>
     public async Task<MessageModel> CreateMessage(
-        Guid mailboxId,
+        Guid userId,
         CreateMessageRequest request)
     {
-        var authorizationHeader = tokenProvider.GetAccessToken().GetAuthorizationHeader();
-
         return await Post<CreateMessageRequest, MessageModel>(
-            uri: BaseAddress.AppendPath($"/{request.MailboxId}/messages"),
-            content: request,
-            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
+            uri: BaseAddress.AppendPath($"/{userId}/messages"),
+            content: request);
     }
 
     /// <summary>
     /// Deletes the specified message.
     /// </summary>
-    /// <param name="mailboxId">The specified mailbox id.</param>
+    /// <param name="userId">The specified user id.</param>
     /// <param name="messageId">The specified message id.</param>
     public async Task<DeleteMessageResponse> DeleteMessage(
-        Guid mailboxId,
+        Guid userId,
         Guid messageId)
     {
-        var authorizationHeader = tokenProvider.GetAccessToken().GetAuthorizationHeader();
-
         return await Delete<DeleteMessageResponse>(
-            uri: BaseAddress.AppendPath($"mailboxes/{mailboxId}/messages/{messageId}"),
-            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
+            uri: BaseAddress.AppendPath($"useres/{userId}/messages/{messageId}"));
     }
 
     /// <summary>
     /// Gets the specified message, if it exists.
     /// </summary>
-    /// <param name="mailboxId">The specified mailbox id.</param>
+    /// <param name="userId">The specified user id.</param>
     /// <param name="messageId">The specified message id.</param>
     /// <returns>The <see cref="MessageModel"/>, if it exists.</returns>
     public async Task<MessageModel> GetMessage(
-        Guid mailboxId,
+        Guid userId,
         Guid messageId)
     {
-        var authorizationHeader = tokenProvider.GetAccessToken().GetAuthorizationHeader();
-
         return await Get<MessageModel>(
-            uri: BaseAddress.AppendPath($"mailboxes/{mailboxId}/messages/{messageId}"),
-            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
+            uri: BaseAddress.AppendPath($"useres/{userId}/messages/{messageId}"));
     }
 
     /// <summary>
-    /// Gets the message from the specified mailbox.
+    /// Gets the message from the specified user.
     /// </summary>
-    /// <param name="mailboxId">The specified mailbox id.</param>
+    /// <param name="userId">The specified user id.</param>
     /// <returns>The array of <see cref="MessageModel"/>.</returns>
     public async Task<MessageModel[]> GetMessages(
-        Guid mailboxId)
+        Guid userId)
     {
-        var authorizationHeader = tokenProvider.GetAccessToken().GetAuthorizationHeader();
-
         return await Get<MessageModel[]>(
-            uri: BaseAddress.AppendPath($"mailboxes/{mailboxId}"),
-            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
+            uri: BaseAddress.AppendPath($"useres/{userId}"));
     }
 
     /// <summary>
     /// Updates the specified message
     /// </summary>
-    /// <param name="mailboxId">The specified mailbox id.</param>
+    /// <param name="userId">The specified user id.</param>
     /// <param name="messageId">The specified message id.</param>
     /// <param name="request">The <see cref="UpdateMessageRequest"/>.</param>
     /// <returns>The updated <see cref="MessageModel"/>.</returns>
     public async Task<MessageModel> UpdateMessage(
-        Guid mailboxId,
+        Guid userId,
         Guid messageId,
         UpdateMessageRequest request)
     {
-        var authorizationHeader = tokenProvider.GetAccessToken().GetAuthorizationHeader();
-
         return await Put<UpdateMessageRequest, MessageModel>(
-            uri: BaseAddress.AppendPath($"mailboxes/{mailboxId}/messages/{messageId}"),
-            content: request,
-            addHeaders: headers => headers.AddAuthorizationHeader(authorizationHeader));
+            uri: BaseAddress.AppendPath($"useres/{userId}/messages/{messageId}"),
+            content: request);
     }
 }

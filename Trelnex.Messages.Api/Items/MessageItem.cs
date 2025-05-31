@@ -2,9 +2,9 @@ using System.Text.Json.Serialization;
 using FluentValidation;
 using Trelnex.Core.Data;
 
-namespace Trelnex.Messages.Api.Objects;
+namespace Trelnex.Messages.Api.Items;
 
-internal interface IMessage : IBaseItem
+internal interface IMessageItem : IBaseItem
 {
     /// <summary>
     /// The contents of the message.
@@ -12,17 +12,17 @@ internal interface IMessage : IBaseItem
     string? Contents { get; set; }
 }
 
-internal class Message : BaseItem, IMessage
+internal class MessageItem : BaseItem, IMessageItem
 {
     [TrackChange]
     [JsonPropertyName("contents")]
     public string? Contents { get; set; }
 
-    public static AbstractValidator<Message> Validator { get; } = new MessageValidator();
+    public static AbstractValidator<MessageItem> Validator { get; } = new MessageItemValidator();
 
-    private class MessageValidator : AbstractValidator<Message>
+    private class MessageItemValidator : AbstractValidator<MessageItem>
     {
-        public MessageValidator()
+        public MessageItemValidator()
         {
             RuleFor(k => k.Contents)
                 .NotEmpty()

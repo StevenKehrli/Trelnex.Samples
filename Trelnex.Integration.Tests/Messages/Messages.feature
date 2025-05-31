@@ -1,127 +1,56 @@
 Feature: Messages
 
 @users
-@mailboxes
 @messages
 Scenario: User Message is created
 	Given User Doris exists
-	And UserMailbox for Doris exists
-	When Message with contents 'first message' in UserMailbox for Doris is created
-	Then Message with contents 'first message' in UserMailbox for Doris is valid
+	When Message for User Doris with contents 'first message' is created
+	Then Message for User Doris with contents 'first message' is valid
 
 @users
-@mailboxes
 @messages
 Scenario: User Messages are empty
 	Given User Doris exists
-	And UserMailbox for Doris exists
-	Then Messages in UserMailbox for Doris are valid
+	Then Messages for User Doris are valid
 		| Contents       |
 
 @users
-@mailboxes
 @messages
 Scenario: User Messages are valid
 	Given User Doris exists
-	And UserMailbox for Doris exists
-	When Message with contents 'first message' in UserMailbox for Doris is created
-	And Message with contents 'second message' in UserMailbox for Doris is created
-	And Message with contents 'third message' in UserMailbox for Doris is created
-	Then Messages in UserMailbox for Doris are valid
+	When Message for User Doris with contents 'first message' is created
+	And Message for User Doris with contents 'second message' is created
+	And Message for User Doris with contents 'third message' is created
+	Then Messages for User Doris are valid
 		| Contents       |
 		| first message  |
 		| second message |
 		| third message  |
 
 @users
-@mailboxes
 @messages
 Scenario: User Message is updated
 	Given User Doris exists
-	And UserMailbox for Doris exists
-	And Message with contents 'first message' in UserMailbox for Doris exists
-	When Message with contents 'first message' in UserMailbox for Doris is updated to contents 'first message - updated'
-	Then Message with contents 'first message - updated' in UserMailbox for Doris is valid
+	And Message for User Doris with contents 'first message' exists
+	When Message for User Doris with contents 'first message' is updated to contents 'first message - updated'
+	Then Message for User Doris with contents 'first message - updated' is valid
 
 @users
-@mailboxes
 @messages
 Scenario: User Message is deleted
 	Given User Doris exists
-	And UserMailbox for Doris exists
-	And Message with contents 'first message' in UserMailbox for Doris exists
-	When Message with contents 'first message' in UserMailbox for Doris is deleted
-	Then Message with contents 'first message' in UserMailbox for Doris is not found
+	And Message for User Doris with contents 'first message' exists
+	When Message for User Doris with contents 'first message' is deleted
+	Then Message for User Doris with contents 'first message' is not found
 
-@groups
-@mailboxes
+@users
 @messages
-Scenario: Group Message is created
-	Given Group Testers exists
-	And GroupMailbox for Testers exists
-	When Message with contents 'first message' in GroupMailbox for Testers is created
-	Then Message with contents 'first message' in GroupMailbox for Testers is valid
+Scenario: UpdateMessage with bad messageId throws NotFound
+	Given User Doris exists
+	Then UpdateMessage for User Doris with bad messageId throws NotFound
 
-@groups
-@mailboxes
+@users
 @messages
-Scenario: Group Messages are empty
-	Given Group Testers exists
-	And GroupMailbox for Testers exists
-	Then Messages in GroupMailbox for Testers are valid
-		| Contents       |
-
-@groups
-@mailboxes
-@messages
-Scenario: Group Messages are valid
-	Given Group Testers exists
-	And GroupMailbox for Testers exists
-	When Message with contents 'first message' in GroupMailbox for Testers is created
-	And Message with contents 'second message' in GroupMailbox for Testers is created
-	And Message with contents 'third message' in GroupMailbox for Testers is created
-	Then Messages in GroupMailbox for Testers are valid
-		| Contents       |
-		| first message  |
-		| second message |
-		| third message  |
-
-@groups
-@mailboxes
-@messages
-Scenario: Group Message is updated
-	Given Group Testers exists
-	And GroupMailbox for Testers exists
-	And Message with contents 'first message' in GroupMailbox for Testers exists
-	When Message with contents 'first message' in GroupMailbox for Testers is updated to contents 'first message - updated'
-	Then Message with contents 'first message - updated' in GroupMailbox for Testers is valid
-
-@groups
-@mailboxes
-@messages
-Scenario: Group Message is deleted
-	Given Group Testers exists
-	And GroupMailbox for Testers exists
-	And Message with contents 'first message' in GroupMailbox for Testers exists
-	When Message with contents 'first message' in GroupMailbox for Testers is deleted
-	Then Message with contents 'first message' in GroupMailbox for Testers is not found
-
-@messages
-Scenario: CreateMessage with bad mailboxId throws BadRequest
-	Then CreateMessage with bad mailboxId throws BadRequest
-
-@messages
-Scenario: UpdateMessage with bad mailboxId throws BadRequest
-	Then UpdateMessage with bad mailboxId throws BadRequest
-
-@messages
-Scenario: UpdateMessage with bad messageId throws BadRequest
-	Then UpdateMessage with bad messageId throws BadRequest
-
-@messages
-Scenario: UpdateMessage not found
-	Then UpdateMessage not found
-
-@messages
-Scenario: DeleteMessage not found
-	Then DeleteMessage not found
+Scenario: DeleteMessage with bad messageId throws NotFound
+	Given User Doris exists
+	Then DeleteMessage for User Doris with bad messageId throws NotFound

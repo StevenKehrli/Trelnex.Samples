@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using Trelnex.Core.Api.Responses;
+using Trelnex.Core.Api.Authentication;
 using Trelnex.Core.Data;
-using Trelnex.Mailboxes.Client;
-using Trelnex.Messages.Api.Objects;
+using Trelnex.Messages.Api.Items;
 using Trelnex.Messages.Client;
+using Trelnex.Users.Client;
 
 namespace Trelnex.Messages.Api.Endpoints;
 
@@ -14,47 +14,51 @@ internal static class GetMessagesEndpoint
         IEndpointRouteBuilder erb)
     {
         erb.MapGet(
-                "/mailboxes/{mailboxId:guid}/messages",
+                "/users/{userId:guid}/messages",
                 HandleRequest)
-            // .RequirePermission<MessagesPermission.MessagesReadPolicy>()
+            .RequirePermission<MessagesPermission.MessagesReadPolicy>()
             .Produces<MessageModel[]>()
-            .Produces<HttpStatusCodeResponse>(StatusCodes.Status401Unauthorized)
-            .Produces<HttpStatusCodeResponse>(StatusCodes.Status403Forbidden)
+            .Produces<ProblemDetails>(StatusCodes.Status401Unauthorized)
+            .Produces<ProblemDetails>(StatusCodes.Status403Forbidden)
             .WithName("GetMessages")
-            .WithDescription("Gets the messages for the specified mailbox")
+            .WithDescription("Gets the messages for the specified user")
             .WithTags("Messages")
-            .ValidateMailbox(efiContext =>
+            .ValidateUser(efiContext =>
             {
                 // get our request parameters
-                var mailboxesClient = efiContext.Arguments.OfType<IMailboxesClient>().First();
+                var usersClient = efiContext.Arguments.OfType<IUsersClient>().First();
                 var requestParameters = efiContext.Arguments.OfType<RequestParameters>().First();
 
-                return (mailboxesClient, requestParameters.MailboxId);
+                return (usersClient, requestParameters.UserId);
             });
     }
 
     public static async Task<MessageModel[]> HandleRequest(
-        [FromServices] IMailboxesClient mailboxesClient,
-        [FromServices] ICommandProvider<IMessage> messageProvider,
+        [FromServices] IUsersClient usersClient,
+        [FromServices] ICommandProvider<IMessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
-        // create a query for all messages in the mailbox
+        // create a query for all messages for the user
         var messageQueryCommand = messageProvider.Query()
-            .Where(i => i.PartitionKey == parameters.MailboxId.ToString())
-            .OrderBy(i => i.CreatedDate);
+            .Where(i => i.PartitionKey == parameters.UserId.ToString())
+            .OrderBy(i => i.CreatedDateTimeOffset);
 
-        var messageQueryResults = await messageQueryCommand.ToAsyncEnumerable().ToArrayAsync();
+        var messageQueryResults = await messageQueryCommand
+            .ToAsyncEnumerable()
+            .ToArrayAsync();
 
         // return the message models
         return messageQueryResults.Select(mrr =>
-            mrr.Item.ConvertToModel())
+            {
+                return mrr.Item.ConvertToModel();
+            })
             .ToArray();
     }
 
     public class RequestParameters
     {
-        [FromRoute(Name = "mailboxId")]
-        [SwaggerParameter(Description = "The specified mailbox id", Required = true)]
-        public required Guid MailboxId { get; init; }
+        [FromRoute(Name = "userId")]
+        [SwaggerParameter(Description = "The specified user id", Required = true)]
+        public required Guid UserId { get; init; }
     }
 }

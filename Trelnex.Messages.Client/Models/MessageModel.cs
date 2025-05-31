@@ -5,9 +5,9 @@ namespace Trelnex.Messages.Client;
 
 public record MessageModel
 {
-    [JsonPropertyName("mailboxId")]
-    [SwaggerSchema("The id of the mailbox.", Nullable = false)]
-    public required Guid MailboxId { get; init; }
+    [JsonPropertyName("userId")]
+    [SwaggerSchema("The id of the user.", Nullable = false)]
+    public required Guid UserId { get; init; }
 
     [JsonPropertyName("messageId")]
     [SwaggerSchema("The id of the message.", Nullable = false)]

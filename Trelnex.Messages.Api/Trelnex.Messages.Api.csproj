@@ -10,13 +10,12 @@
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-        <PackageReference Include="Trelnex.Core.Api" Version="2.0.0" />
-        <PackageReference Include="Trelnex.Core.Azure" Version="2.0.0" />
+        <PackageReference Include="Trelnex.Core.Azure" Version="0.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Trelnex.Mailboxes.Client\Trelnex.Mailboxes.Client.csproj" />
         <ProjectReference Include="..\Trelnex.Messages.Client\Trelnex.Messages.Client.csproj" />
+        <ProjectReference Include="..\Trelnex.Users.Client\Trelnex.Users.Client.csproj" />
     </ItemGroup>
 
 </Project>

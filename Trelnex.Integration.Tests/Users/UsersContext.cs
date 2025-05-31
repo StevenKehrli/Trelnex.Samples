@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 using Trelnex.Integration.Tests.InMemory;
-using Trelnex.Users.Api.Objects;
+using Trelnex.Users.Api.Items;
 using Trelnex.Users.Client;
 
 namespace Trelnex.Integration.Tests.Users;
@@ -18,7 +18,7 @@ public class UsersContext
             options => options.AddUsersCommandProviders());
 
         // get the users command provider
-        var userProvider = inMemoryCommandProviders.Get<IUser>();
+        var userProvider = inMemoryCommandProviders.Get<IUserItem>();
 
         // create the users client
         _usersClient = new UsersClient(userProvider);

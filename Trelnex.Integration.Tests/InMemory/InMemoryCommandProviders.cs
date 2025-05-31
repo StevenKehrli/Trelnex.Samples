@@ -1,5 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Semver;
+using Trelnex.Core.Api.CommandProviders;
+using Trelnex.Core.Api.Configuration;
 using Trelnex.Core.Api.Serilog;
 using Trelnex.Core.Data;
 
@@ -28,7 +31,12 @@ internal class InMemoryCommandProviders
 
         var bootstrapLogger = services.AddSerilog(
             configuration,
-            "Trelnex.Integration.Tests");
+            new ServiceConfiguration() {
+                FullName = "Trelnex.Integration.Tests",
+                DisplayName = "Trelnex.Integration.Tests",
+                Version = "0.0.0",
+                Description = "Trelnex.Integration.Tests"
+            });
 
         // create the command providers
         services.AddInMemoryCommandProviders(
