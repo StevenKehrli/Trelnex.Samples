@@ -7,7 +7,8 @@
       "tests": "Trelnex.Integration.Tests",
       "paths": [
           "Trelnex.Messages.Api/**",
-          "Trelnex.Messages.Client/**"
+          "Trelnex.Messages.Client/**",
+          "Trelnex.Users.Client/**"
       ]
     },
     {
@@ -16,7 +17,6 @@
       "workflows": [ "build" ],
       "tests": "Trelnex.Integration.Tests",
       "paths": [
-          "Trelnex.Messages.Api/**",
           "Trelnex.Messages.Client/**"
       ]
     },
@@ -36,7 +36,6 @@
       "workflows": [ "build" ],
       "tests": "Trelnex.Integration.Tests",
       "paths": [
-          "Trelnex.Users.Api/**",
           "Trelnex.Users.Client/**"
       ]
     }
