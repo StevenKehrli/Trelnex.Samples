@@ -29,11 +29,9 @@ public interface IUsersClient
 /// Initializes a new instance of the <see cref="UsersClient"/>.
 /// </summary>
 /// <param name="httpClient">The specified <see cref="HttpClient"/> instance.</param>
-/// <param name="tokenProvider">The specified <see cref="IAccessTokenProvider"/> to get the access token.</param>
-internal class UsersClient(
-    HttpClient httpClient,
-    IAccessTokenProvider tokenProvider)
-    : BaseClient(httpClient, tokenProvider), IUsersClient
+public class UsersClient(
+    HttpClient httpClient)
+    : BaseClient(httpClient), IUsersClient
 {
     /// <summary>
     /// Creates the specified user.

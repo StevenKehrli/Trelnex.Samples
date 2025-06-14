@@ -8,7 +8,7 @@ namespace Trelnex.Integration.Tests.Messages;
 
 internal class MessagesClient(
     IUsersClient usersClient,
-    ICommandProvider<IMessageItem> messageProvider) : IMessagesClient
+    IDataProvider<IMessageItem> messageProvider) : IMessagesClient
 {
     public async Task<MessageModel> CreateMessage(
         Guid userId,

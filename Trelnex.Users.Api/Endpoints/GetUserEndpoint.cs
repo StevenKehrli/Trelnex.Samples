@@ -27,19 +27,16 @@ internal static class GetUserEndpoint
     }
 
     public static async Task<UserModel> HandleRequest(
-        [FromServices] ICommandProvider<IUserItem> userProvider,
+        [FromServices] IDataProvider<IUserItem> userProvider,
         [AsParameters] RequestParameters parameters)
     {
         // get the user item from data store
-        var userReadResult = await userProvider.ReadAsync(
+        using var userReadResult = await userProvider.ReadAsync(
             id: parameters.UserId.ToString(),
             partitionKey: parameters.UserId.ToString());
 
         // throw if not found
-        if (userReadResult is null)
-        {
-            throw new HttpStatusCodeException(HttpStatusCode.NotFound);
-        }
+        if (userReadResult is null) throw new HttpStatusCodeException(HttpStatusCode.NotFound);
 
         // return the user model
         return userReadResult.Item.ConvertToModel();

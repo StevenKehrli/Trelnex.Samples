@@ -26,7 +26,7 @@ internal static class CreateUserEndpoint
     }
 
     public static async Task<UserModel> HandleRequest(
-        [FromServices] ICommandProvider<IUserItem> userProvider,
+        [FromServices] IDataProvider<IUserItem> userProvider,
         [AsParameters] RequestParameters parameters)
     {
         // create a new user id
@@ -34,14 +34,14 @@ internal static class CreateUserEndpoint
         var partitionKey = id;
 
         // create the user item
-        var userCreateCommand = userProvider.Create(
+        using var userCreateCommand = userProvider.Create(
             id: id,
             partitionKey: partitionKey);
 
         userCreateCommand.Item.UserName = parameters.Request.UserName;
 
         // save in data store
-        var userCreateResult = await userCreateCommand.SaveAsync(default);
+        using var userCreateResult = await userCreateCommand.SaveAsync(default);
 
         // return the user model
         return userCreateResult.Item.ConvertToModel();

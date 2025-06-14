@@ -6,7 +6,7 @@ using Trelnex.Users.Client;
 namespace Trelnex.Integration.Tests.Users;
 
 internal class UsersClient(
-    ICommandProvider<IUserItem> userProvider) : IUsersClient
+    IDataProvider<IUserItem> userProvider) : IUsersClient
 {
     public async Task<UserModel> CreateUser(
         CreateUserRequest request)

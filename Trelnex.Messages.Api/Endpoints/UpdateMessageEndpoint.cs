@@ -39,11 +39,11 @@ internal static class UpdateMessageEndpoint
 
     public static async Task<MessageModel> HandleRequest(
         [FromServices] IUsersClient usersClient,
-        [FromServices] ICommandProvider<IMessageItem> messageProvider,
+        [FromServices] IDataProvider<IMessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
         // update the message item
-        var messageUpdateCommand = await messageProvider.UpdateAsync(
+        using var messageUpdateCommand = await messageProvider.UpdateAsync(
             id: parameters.MessageId.ToString(),
             partitionKey: parameters.UserId.ToString());
 

@@ -13,12 +13,12 @@ public class UsersContext
 
     public UsersContext()
     {
-        // create the users command providers
-        var inMemoryCommandProviders = InMemoryCommandProviders.Create(
-            options => options.AddUsersCommandProviders());
+        // create the users data providers
+        var inMemoryDataProviders = InMemoryDataProviders.Create(
+            options => options.AddUsersDataProviders());
 
-        // get the users command provider
-        var userProvider = inMemoryCommandProviders.Get<IUserItem>();
+        // get the users data provider
+        var userProvider = inMemoryDataProviders.Get<IUserItem>();
 
         // create the users client
         _usersClient = new UsersClient(userProvider);
