@@ -2,7 +2,7 @@ using Trelnex.Core.Api;
 using Trelnex.Core.Api.Authentication;
 using Trelnex.Core.Api.Client;
 using Trelnex.Core.Api.Swagger;
-using Trelnex.Core.Azure.CommandProviders;
+using Trelnex.Core.Azure.DataProviders;
 using Trelnex.Core.Azure.Identity;
 using Trelnex.Core.Data;
 using Trelnex.Messages.Api.Endpoints;
@@ -27,13 +27,12 @@ internal static class MessagesApplication
             .AddAzureIdentity(
                 configuration,
                 bootstrapLogger)
-            .AddCosmosCommandProviders(
+            .AddCosmosDataProviders(
                 configuration,
                 bootstrapLogger,
-                options => options.AddMessagesCommandProviders())
-            .AddClient(
-                configuration,
-                new UsersClientFactory());
+                options => options.AddMessagesDataProviders())
+            .AddClient<IUsersClient, UsersClient>(
+                configuration);
     }
 
     public static void Use(
@@ -44,8 +43,8 @@ internal static class MessagesApplication
             .UseEndpoints();
     }
 
-    public static ICommandProviderOptions AddMessagesCommandProviders(
-        this ICommandProviderOptions options)
+    public static IDataProviderOptions AddMessagesDataProviders(
+        this IDataProviderOptions options)
     {
         return options
             .Add<IMessageItem, MessageItem>(

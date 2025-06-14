@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Trelnex.Core.Api.Authentication;
 using Trelnex.Core.Data;
+using Trelnex.Core.Disposables;
 using Trelnex.Messages.Api.Items;
 using Trelnex.Messages.Client;
 using Trelnex.Users.Client;
@@ -35,7 +36,7 @@ internal static class GetMessagesEndpoint
 
     public static async Task<MessageModel[]> HandleRequest(
         [FromServices] IUsersClient usersClient,
-        [FromServices] ICommandProvider<IMessageItem> messageProvider,
+        [FromServices] IDataProvider<IMessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
         // create a query for all messages for the user
@@ -43,9 +44,8 @@ internal static class GetMessagesEndpoint
             .Where(i => i.PartitionKey == parameters.UserId.ToString())
             .OrderBy(i => i.CreatedDateTimeOffset);
 
-        var messageQueryResults = await messageQueryCommand
-            .ToAsyncEnumerable()
-            .ToArrayAsync();
+        using var messageQueryResults = await messageQueryCommand
+            .ToDisposableEnumerableAsync();
 
         // return the message models
         return messageQueryResults.Select(mrr =>

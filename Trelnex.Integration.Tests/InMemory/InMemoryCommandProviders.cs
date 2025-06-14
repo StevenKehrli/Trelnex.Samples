@@ -1,25 +1,25 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Semver;
-using Trelnex.Core.Api.CommandProviders;
+using Trelnex.Core.Api.DataProviders;
 using Trelnex.Core.Api.Configuration;
 using Trelnex.Core.Api.Serilog;
 using Trelnex.Core.Data;
 
 namespace Trelnex.Integration.Tests.InMemory;
 
-internal class InMemoryCommandProviders
+internal class InMemoryDataProviders
 {
     private readonly IServiceProvider _serviceProvider;
 
-    private InMemoryCommandProviders(
+    private InMemoryDataProviders(
         IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
 
-    public static InMemoryCommandProviders Create(
-        Action<ICommandProviderOptions> configureCommandProviders)
+    public static InMemoryDataProviders Create(
+        Action<IDataProviderOptions> configureDataProviders)
     {
         // create the service collection
         var services = new ServiceCollection();
@@ -38,20 +38,20 @@ internal class InMemoryCommandProviders
                 Description = "Trelnex.Integration.Tests"
             });
 
-        // create the command providers
-        services.AddInMemoryCommandProviders(
+        // create the data providers
+        services.AddInMemoryDataProviders(
             configuration,
             bootstrapLogger,
-            configureCommandProviders);
+            configureDataProviders);
 
         var serviceProvider = services.BuildServiceProvider();
 
-        return new InMemoryCommandProviders(serviceProvider);
+        return new InMemoryDataProviders(serviceProvider);
     }
 
-    public ICommandProvider<TInterface> Get<TInterface>()
+    public IDataProvider<TInterface> Get<TInterface>()
         where TInterface : class, IBaseItem
     {
-        return _serviceProvider.GetRequiredService<ICommandProvider<TInterface>>();
+        return _serviceProvider.GetRequiredService<IDataProvider<TInterface>>();
     }
 }

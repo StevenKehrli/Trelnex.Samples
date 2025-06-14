@@ -37,11 +37,11 @@ internal static class GetMessageEndpoint
 
     public static async Task<MessageModel> HandleRequest(
         [FromServices] IUsersClient usersClient,
-        [FromServices] ICommandProvider<IMessageItem> messageProvider,
+        [FromServices] IDataProvider<IMessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
         // get the message item from data store
-        var messageReadResult = await messageProvider.ReadAsync(
+        using var messageReadResult = await messageProvider.ReadAsync(
             id: parameters.MessageId.ToString(),
             partitionKey: parameters.UserId.ToString());
 

@@ -37,11 +37,11 @@ internal static class DeleteMessageEndpoint
 
     public static async Task<DeleteMessageResponse> HandleRequest(
         [FromServices] IUsersClient usersClient,
-        [FromServices] ICommandProvider<IMessageItem> messageProvider,
+        [FromServices] IDataProvider<IMessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
         // delete the message item
-        var messageDeleteCommand = await messageProvider.DeleteAsync(
+        using var messageDeleteCommand = await messageProvider.DeleteAsync(
             id: parameters.MessageId.ToString(),
             partitionKey: parameters.UserId.ToString());
 
@@ -49,7 +49,7 @@ internal static class DeleteMessageEndpoint
         if (messageDeleteCommand is null) throw new HttpStatusCodeException(HttpStatusCode.NotFound);
 
         // save in data store
-        var messageDeleteResult = await messageDeleteCommand.SaveAsync(default);
+        using var messageDeleteResult = await messageDeleteCommand.SaveAsync(default);
 
         // return the delete response
         return new DeleteMessageResponse

@@ -62,11 +62,9 @@ public interface IMessagesClient
 /// Initializes a new instance of the <see cref="MessagesClient"/>.
 /// </summary>
 /// <param name="httpClient">The specified <see cref="HttpClient"/> instance.</param>
-/// <param name="tokenProvider">The specified <see cref="IAccessTokenProvider"/> to get the access token.</param>
 internal class MessagesClient(
-    HttpClient httpClient,
-    IAccessTokenProvider tokenProvider)
-    : BaseClient(httpClient, tokenProvider), IMessagesClient
+    HttpClient httpClient)
+    : BaseClient(httpClient), IMessagesClient
 {
     /// <summary>
     /// Creates the specified message.

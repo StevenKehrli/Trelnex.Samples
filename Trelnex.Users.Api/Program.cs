@@ -1,7 +1,7 @@
 using Trelnex.Core.Api;
 using Trelnex.Core.Api.Authentication;
 using Trelnex.Core.Api.Swagger;
-using Trelnex.Core.Azure.CommandProviders;
+using Trelnex.Core.Azure.DataProviders;
 using Trelnex.Core.Azure.Identity;
 using Trelnex.Core.Data;
 using Trelnex.Users.Api.Endpoints;
@@ -25,10 +25,10 @@ internal static class UsersApplication
             .AddAzureIdentity(
                 configuration,
                 bootstrapLogger)
-            .AddCosmosCommandProviders(
+            .AddCosmosDataProviders(
                 configuration,
                 bootstrapLogger,
-                options => options.AddUsersCommandProviders());
+                options => options.AddUsersDataProviders());
     }
 
     public static void Use(
@@ -39,8 +39,8 @@ internal static class UsersApplication
             .UseEndpoints();
     }
 
-    public static ICommandProviderOptions AddUsersCommandProviders(
-        this ICommandProviderOptions options)
+    public static IDataProviderOptions AddUsersDataProviders(
+        this IDataProviderOptions options)
     {
         return options
             .Add<IUserItem, UserItem>(

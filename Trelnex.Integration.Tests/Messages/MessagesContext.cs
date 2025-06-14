@@ -15,12 +15,12 @@ public class MessagesContext
     public MessagesContext(
         UsersContext usersContext)
     {
-        // create the messages command providers
-        var inMemoryCommandProviders = InMemoryCommandProviders.Create(
-            options => options.AddMessagesCommandProviders());
+        // create the messages data providers
+        var inMemoryDataProviders = InMemoryDataProviders.Create(
+            options => options.AddMessagesDataProviders());
 
-        // get the messages command provider
-        var messageProvider = inMemoryCommandProviders.Get<IMessageItem>();
+        // get the messages data provider
+        var messageProvider = inMemoryDataProviders.Get<IMessageItem>();
 
         // create the messages client
         _messagesClient = new MessagesClient(

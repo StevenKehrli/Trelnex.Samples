@@ -37,21 +37,21 @@ internal static class CreateMessageEndpoint
 
     public static async Task<MessageModel> HandleRequest(
         [FromServices] IUsersClient usersClient,
-        [FromServices] ICommandProvider<IMessageItem> messageProvider,
+        [FromServices] IDataProvider<IMessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
         // create a new message id
         var id = Guid.NewGuid().ToString();
 
         // create the message item
-        var messageCreateCommand = messageProvider.Create(
+        using var messageCreateCommand = messageProvider.Create(
             id: id,
             partitionKey: parameters.UserId.ToString());
 
         messageCreateCommand.Item.Contents = parameters.Request.Contents;
 
         // save in data store
-        var messageCreateResult = await messageCreateCommand.SaveAsync(default);
+        using var messageCreateResult = await messageCreateCommand.SaveAsync(default);
 
         // return the message model
         return messageCreateResult.Item.ConvertToModel();

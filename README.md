@@ -62,21 +62,21 @@ appsettings.json must be configured with the valid Instance, TenantId, ClientId,
 
 `Trelnex.Integration.Tests` are [SpecFlow](https://specflow.org/) tests.
 
-### ICommandProvider<TInterface, TItem>
+### IDataProvider<TInterface, TItem>
 
-The `Trelnex.Core.Data.Emulators` library exposes the `InMemoryCommandProvider<TInterface, TItem>` implementation of `ICommandProvider<TInterface, TItem>`. We can use this to assist development and testing of business logic.
+The `Trelnex.Core.Data.Emulators` library exposes the `InMemoryDataProvider<TInterface, TItem>` implementation of `IDataProvider<TInterface, TItem>`. We can use this to assist development and testing of business logic.
 
-For example, this code creates the `ICommandProvider<TInterface, TItem>` for `IUser` and `IMessage`.
+For example, this code creates the `IDataProvider<TInterface, TItem>` for `IUser` and `IMessage`.
 
 ```csharp
-    // create the command providers
-    var inMemoryCommandProviders = InMemoryCommandProviders.Create(
+    // create the data providers
+    var inMemoryDataProviders = InMemoryDataProviders.Create(
         options => options
-            .AddUsersCommandProviders()
-            .AddMessagesCommandProviders());
+            .AddUsersDataProviders()
+            .AddMessagesDataProviders());
 ```
 
-This is the same logic as the API startup logic, but using the `InMemoryCommandProvider<TInterface, TItem>` instead of `CosmosCommandProvider<TInterface, TItem>`.
+This is the same logic as the API startup logic, but using the `InMemoryDataProvider<TInterface, TItem>` instead of `CosmosDataProvider<TInterface, TItem>`.
 
 ### Client
 
@@ -103,6 +103,6 @@ For example, the `IUsersClient` `GetUser` method looks like this:
 
 ### Context
 
-Each test maintains its own Context object for its `ICommandProvider<TInterface, TItem>` and Client.
+Each test maintains its own Context object for its `IDataProvider<TInterface, TItem>` and Client.
 
 Its step definitions references this Context object to invoke the Client method which will invoke the `HandleRequest` method.
