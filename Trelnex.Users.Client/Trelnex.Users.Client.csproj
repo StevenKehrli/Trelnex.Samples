@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.1" />
-        <PackageReference Include="Trelnex.Core" Version="0.3.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.3" />
+        <PackageReference Include="Trelnex.Core" Version="0.4.0" />
     </ItemGroup>
 
 </Project>
