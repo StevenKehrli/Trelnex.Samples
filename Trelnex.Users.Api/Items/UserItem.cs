@@ -4,17 +4,9 @@ using Trelnex.Core.Data;
 
 namespace Trelnex.Users.Api.Items;
 
-internal interface IUserItem : IBaseItem
+internal record UserItem : BaseItem
 {
-    /// <summary>
-    /// The name of this user.
-    /// </summary>
-    string UserName { get; set; }
-}
-
-internal class UserItem : BaseItem, IUserItem
-{
-    [TrackChange]
+    [Track]
     [JsonPropertyName("userName")]
     public string UserName { get; set; } = null!;
 

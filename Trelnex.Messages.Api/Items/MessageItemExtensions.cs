@@ -5,7 +5,7 @@ namespace Trelnex.Messages.Api.Items;
 internal static class MessageItemExtensions
 {
     public static MessageModel ConvertToModel(
-        this IMessageItem messageItem)
+        this MessageItem messageItem)
     {
         return new MessageModel
         {

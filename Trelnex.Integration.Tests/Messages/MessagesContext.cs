@@ -20,7 +20,7 @@ public class MessagesContext
             options => options.AddMessagesDataProviders());
 
         // get the messages data provider
-        var messageProvider = inMemoryDataProviders.Get<IMessageItem>();
+        var messageProvider = inMemoryDataProviders.Get<MessageItem>();
 
         // create the messages client
         _messagesClient = new MessagesClient(

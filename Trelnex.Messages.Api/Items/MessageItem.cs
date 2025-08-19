@@ -4,17 +4,9 @@ using Trelnex.Core.Data;
 
 namespace Trelnex.Messages.Api.Items;
 
-internal interface IMessageItem : IBaseItem
+internal record MessageItem : BaseItem
 {
-    /// <summary>
-    /// The contents of the message.
-    /// </summary>
-    string? Contents { get; set; }
-}
-
-internal class MessageItem : BaseItem, IMessageItem
-{
-    [TrackChange]
+    [Track]
     [JsonPropertyName("contents")]
     public string? Contents { get; set; }
 

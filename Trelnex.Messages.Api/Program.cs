@@ -47,9 +47,9 @@ internal static class MessagesApplication
         this IDataProviderOptions options)
     {
         return options
-            .Add<IMessageItem, MessageItem>(
+            .Add(
                 typeName: "message",
-                validator: MessageItem.Validator,
+                itemValidator: MessageItem.Validator,
                 commandOperations: CommandOperations.All);
     }
 

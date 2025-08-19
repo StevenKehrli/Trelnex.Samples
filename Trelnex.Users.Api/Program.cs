@@ -43,9 +43,9 @@ internal static class UsersApplication
         this IDataProviderOptions options)
     {
         return options
-            .Add<IUserItem, UserItem>(
+            .Add(
                 typeName: "user",
-                validator: UserItem.Validator,
+                itemValidator: UserItem.Validator,
                 commandOperations: CommandOperations.All);
     }
 
