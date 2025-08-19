@@ -37,7 +37,7 @@ internal static class GetMessageEndpoint
 
     public static async Task<MessageModel> HandleRequest(
         [FromServices] IUsersClient usersClient,
-        [FromServices] IDataProvider<IMessageItem> messageProvider,
+        [FromServices] IDataProvider<MessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
         // get the message item from data store

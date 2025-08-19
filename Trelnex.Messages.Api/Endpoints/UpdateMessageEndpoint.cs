@@ -39,7 +39,7 @@ internal static class UpdateMessageEndpoint
 
     public static async Task<MessageModel> HandleRequest(
         [FromServices] IUsersClient usersClient,
-        [FromServices] IDataProvider<IMessageItem> messageProvider,
+        [FromServices] IDataProvider<MessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
         // update the message item

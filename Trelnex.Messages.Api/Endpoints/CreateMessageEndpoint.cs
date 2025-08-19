@@ -37,7 +37,7 @@ internal static class CreateMessageEndpoint
 
     public static async Task<MessageModel> HandleRequest(
         [FromServices] IUsersClient usersClient,
-        [FromServices] IDataProvider<IMessageItem> messageProvider,
+        [FromServices] IDataProvider<MessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
         // create a new message id

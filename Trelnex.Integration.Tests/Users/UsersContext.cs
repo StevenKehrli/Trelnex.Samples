@@ -18,7 +18,7 @@ public class UsersContext
             options => options.AddUsersDataProviders());
 
         // get the users data provider
-        var userProvider = inMemoryDataProviders.Get<IUserItem>();
+        var userProvider = inMemoryDataProviders.Get<UserItem>();
 
         // create the users client
         _usersClient = new UsersClient(userProvider);

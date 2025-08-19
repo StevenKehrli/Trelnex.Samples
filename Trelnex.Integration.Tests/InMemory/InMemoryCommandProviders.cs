@@ -49,9 +49,9 @@ internal class InMemoryDataProviders
         return new InMemoryDataProviders(serviceProvider);
     }
 
-    public IDataProvider<TInterface> Get<TInterface>()
-        where TInterface : class, IBaseItem
+    public IDataProvider<TItem> Get<TItem>()
+        where TItem : BaseItem
     {
-        return _serviceProvider.GetRequiredService<IDataProvider<TInterface>>();
+        return _serviceProvider.GetRequiredService<IDataProvider<TItem>>();
     }
 }

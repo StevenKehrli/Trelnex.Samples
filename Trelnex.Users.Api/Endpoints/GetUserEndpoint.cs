@@ -27,7 +27,7 @@ internal static class GetUserEndpoint
     }
 
     public static async Task<UserModel> HandleRequest(
-        [FromServices] IDataProvider<IUserItem> userProvider,
+        [FromServices] IDataProvider<UserItem> userProvider,
         [AsParameters] RequestParameters parameters)
     {
         // get the user item from data store

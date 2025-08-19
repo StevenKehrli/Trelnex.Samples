@@ -37,7 +37,7 @@ internal static class DeleteMessageEndpoint
 
     public static async Task<DeleteMessageResponse> HandleRequest(
         [FromServices] IUsersClient usersClient,
-        [FromServices] IDataProvider<IMessageItem> messageProvider,
+        [FromServices] IDataProvider<MessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
         // delete the message item

@@ -36,7 +36,7 @@ internal static class GetMessagesEndpoint
 
     public static async Task<MessageModel[]> HandleRequest(
         [FromServices] IUsersClient usersClient,
-        [FromServices] IDataProvider<IMessageItem> messageProvider,
+        [FromServices] IDataProvider<MessageItem> messageProvider,
         [AsParameters] RequestParameters parameters)
     {
         // create a query for all messages for the user
