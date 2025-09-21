@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Trelnex.Core;
+using Trelnex.Core.Exceptions;
 
 namespace Trelnex.Messages.Client;
 

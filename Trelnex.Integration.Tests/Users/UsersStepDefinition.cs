@@ -1,6 +1,6 @@
 using System.Net;
 using Reqnroll;
-using Trelnex.Core;
+using Trelnex.Core.Exceptions;
 using Trelnex.Users.Client;
 
 namespace Trelnex.Integration.Tests.Users;

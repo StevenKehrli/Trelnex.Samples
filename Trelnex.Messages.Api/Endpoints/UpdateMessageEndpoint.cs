@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using Trelnex.Core;
+using Trelnex.Core.Exceptions;
 using Trelnex.Core.Api.Authentication;
 using Trelnex.Core.Data;
 using Trelnex.Messages.Api.Items;
