@@ -41,9 +41,11 @@ public class UsersClient(
     public async Task<UserModel> CreateUser(
         CreateUserRequest request)
     {
-        return await Post<CreateUserRequest, UserModel>(
-            uri: BaseAddress.AppendPath($"/users"),
+        var (response, _) = await PostAsync<CreateUserRequest, UserModel>(
+            relativePath: $"/users",
             content: request);
+
+        return response;
     }
 
     /// <summary>
@@ -54,7 +56,9 @@ public class UsersClient(
     public async Task<UserModel> GetUser(
         Guid userId)
     {
-        return await Get<UserModel>(
-            uri: BaseAddress.AppendPath($"/users/{userId}"));
+        var (response, _) = await GetAsync<UserModel>(
+            relativePath: $"/users/{userId}");
+
+        return response;
     }
 }

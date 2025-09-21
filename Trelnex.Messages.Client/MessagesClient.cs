@@ -76,9 +76,11 @@ internal class MessagesClient(
         Guid userId,
         CreateMessageRequest request)
     {
-        return await Post<CreateMessageRequest, MessageModel>(
-            uri: BaseAddress.AppendPath($"/{userId}/messages"),
+        var (response, _) = await PostAsync<CreateMessageRequest, MessageModel>(
+            relativePath: $"/{userId}/messages",
             content: request);
+
+        return response;
     }
 
     /// <summary>
@@ -90,8 +92,10 @@ internal class MessagesClient(
         Guid userId,
         Guid messageId)
     {
-        return await Delete<DeleteMessageResponse>(
-            uri: BaseAddress.AppendPath($"useres/{userId}/messages/{messageId}"));
+        var (response, _) = await DeleteAsync<DeleteMessageResponse>(
+            relativePath: $"users/{userId}/messages/{messageId}");
+
+        return response;
     }
 
     /// <summary>
@@ -104,8 +108,10 @@ internal class MessagesClient(
         Guid userId,
         Guid messageId)
     {
-        return await Get<MessageModel>(
-            uri: BaseAddress.AppendPath($"useres/{userId}/messages/{messageId}"));
+        var (response, _) = await GetAsync<MessageModel>(
+            relativePath: $"users/{userId}/messages/{messageId}");
+
+        return response;
     }
 
     /// <summary>
@@ -116,8 +122,10 @@ internal class MessagesClient(
     public async Task<MessageModel[]> GetMessages(
         Guid userId)
     {
-        return await Get<MessageModel[]>(
-            uri: BaseAddress.AppendPath($"useres/{userId}"));
+        var (response, _) = await GetAsync<MessageModel[]>(
+            relativePath: $"users/{userId}/messages");
+
+        return response;
     }
 
     /// <summary>
@@ -132,8 +140,10 @@ internal class MessagesClient(
         Guid messageId,
         UpdateMessageRequest request)
     {
-        return await Put<UpdateMessageRequest, MessageModel>(
-            uri: BaseAddress.AppendPath($"useres/{userId}/messages/{messageId}"),
+        var (response, _) = await PutAsync<UpdateMessageRequest, MessageModel>(
+            relativePath: $"users/{userId}/messages/{messageId}",
             content: request);
+
+        return response;
     }
 }
